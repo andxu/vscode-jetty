@@ -1,38 +1,183 @@
 {
-    "name": "vscode-jetty",
-    "displayName": "vscode-jetty",
-    "description": "Jetty for VS Code.",
-    "version": "0.0.1",
-    "publisher": "SummerSun",
-    "engines": {
-        "vscode": "^1.21.0"
-    },
-    "categories": [
-        "Other"
+  "name": "vscode-jetty",
+  "displayName": "vscode-jetty",
+  "description": "Jetty for VS Code.",
+  "version": "0.0.1",
+  "publisher": "SummerSun",
+  "engines": {
+    "vscode": "^1.21.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:jetty.tree.refresh",
+    "onCommand:jetty.server.add",
+    "onCommand:jetty.server.start",
+    "onCommand:jetty.server.start.context",
+    "onCommand:jetty.server.stop",
+    "onCommand:jetty.server.stop.context",
+    "onCommand:jetty.server.delete",
+    "onCommand:jetty.server.delete.context",
+    "onCommand:jetty.war.debug",
+    "onCommand:jetty.war.deploy"
+  ],
+  "main": "./out/extension",
+  "contributes": {
+    "commands": [
+      {
+        "command": "jetty.tree.refresh",
+        "title": "Refresh Jetty Server Tree",
+        "category": "Jetty",
+        "icon": {
+          "light": "resources/light/refresh.svg",
+          "dark": "resources/dark/refresh.svg"
+        }
+      },
+      {
+        "command": "jetty.server.add",
+        "title": "Add Jetty Server",
+        "category": "Jetty",
+        "icon": {
+          "light": "resources/light/add.svg",
+          "dark": "resources/dark/add.svg"
+        }
+      },
+      {
+        "command": "jetty.server.start",
+        "title": "Start Jetty Server",
+        "category": "Jetty"
+      },
+      {
+        "command": "jetty.server.start.context",
+        "title": "Start",
+        "category": "Jetty"
+      },
+      {
+        "command": "jetty.server.stop",
+        "title": "Stop Jetty Server",
+        "category": "Jetty"
+      },
+      {
+        "command": "jetty.server.stop.context",
+        "title": "Stop",
+        "category": "Jetty"
+      },
+      {
+        "command": "jetty.server.delete",
+        "title": "Delete Jetty Server",
+        "category": "Jetty"
+      },
+      {
+        "command": "jetty.server.delete.context",
+        "title": "Delete",
+        "category": "Jetty"
+      },
+      {
+        "command": "jetty.war.deploy",
+        "title": "Deploy War Server to Jetty Server",
+        "category": "Jetty"
+      },
+      {
+        "command": "jetty.war.debug",
+        "title": "Debug War Server on Jetty Server",
+        "category": "Jetty"
+      }
     ],
-    "activationEvents": [
-        "onCommand:extension.sayHello"
-    ],
-    "main": "./out/extension",
-    "contributes": {
-        "commands": [
-            {
-                "command": "extension.sayHello",
-                "title": "Hello World"
-            }
-        ]
+    "views": {
+      "explorer": [
+        {
+          "id": "jettyServerExplorer",
+          "name": "Jetty Servers"
+        }
+      ]
     },
-    "scripts": {
-        "vscode:prepublish": "npm run compile",
-        "compile": "tsc -p ./",
-        "watch": "tsc -watch -p ./",
-        "postinstall": "node ./node_modules/vscode/bin/install",
-        "test": "npm run compile && node ./node_modules/vscode/bin/test"
+    "menus": {
+      "view/title": [
+        {
+          "command": "jetty.tree.refresh",
+          "when": "view == jettyServerExplorer",
+          "group": "navigation@0"
+        },
+        {
+          "command": "jetty.server.add",
+          "when": "view == jettyServerExplorer",
+          "group": "navigation@1"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "jetty.tree.refresh",
+          "when": "never"
+        },
+        {
+          "command": "jetty.server.start.context",
+          "when": "never"
+        },
+        {
+          "command": "jetty.server.stop.context",
+          "when": "never"
+        },
+        {
+          "command": "jetty.server.delete.context",
+          "when": "never"
+        }
+      ],
+      "explorer/context": [
+        {
+          "command": "jetty.war.deploy",
+          "when": "explorerResourceIsFolder == false && resourceExtname == .war"
+        },
+        {
+          "command": "jetty.war.debug",
+          "when": "explorerResourceIsFolder == false && resourceExtname == .war"
+        }
+      ],
+      "view/item/context": [
+        {
+          "command": "jetty.server.start.context",
+          "when": "view == jettyServerExplorer && viewItem == idleserver",
+          "group": "jetty@0"
+        },
+        {
+          "command": "jetty.server.stop.context",
+          "when": "view == jettyServerExplorer && viewItem == runningserver",
+          "group": "jetty@1"
+        },
+        {
+          "command": "jetty.server.delete.context",
+          "when": "view == jettyServerExplorer && viewItem && viewItem != war",
+          "group": "jetty@7"
+        }
+      ]
     },
-    "devDependencies": {
-        "typescript": "^2.6.1",
-        "vscode": "^1.1.6",
-        "@types/node": "^7.0.43",
-        "@types/mocha": "^2.2.42"
+    "configuration": {
+      "title": "Jetty Configuration",
+      "properties": {
+        "tomcat.workspace": {
+          "type": "string",
+          "description": "Jetty Servers workspace."
+        }
+      }
     }
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "postinstall": "node ./node_modules/vscode/bin/install",
+    "test": "npm run compile && node ./node_modules/vscode/bin/test",
+    "tslint": "tslint -t verbose src/**/*.ts"
+  },
+  "devDependencies": {
+    "@types/mocha": "^2.2.42",
+    "@types/node": "^7.0.43",
+    "tslint": "^5.8.0",
+    "typescript": "^2.6.1",
+    "vscode": "^1.1.6"
+  },
+  "dependencies": {
+    "fs-extra": "^5.0.0",
+    "lodash": "^4.17.5"
+  }
 }
