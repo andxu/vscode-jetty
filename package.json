@@ -147,7 +147,7 @@
         {
           "command": "jetty.server.delete.context",
           "when": "view == jettyServerExplorer && viewItem && viewItem != war",
-          "group": "jetty@7"
+          "group": "jetty@10"
         }
       ]
     },
@@ -173,6 +173,7 @@
     "@types/mocha": "^2.2.42",
     "@types/node": "^7.0.43",
     "tslint": "^5.8.0",
+    "tslint-microsoft-contrib": "^5.0.3",
     "typescript": "^2.6.1",
     "vscode": "^1.1.6"
   },

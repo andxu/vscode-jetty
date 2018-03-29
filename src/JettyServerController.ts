@@ -1,18 +1,17 @@
 'use strict';
 
-import * as vscode from "vscode";
 import * as _ from "lodash";
 import * as path from "path";
-import { JettyServer } from "./JettyServer";
-import * as Utility from './Utility';
-import { JettyServerModel } from "./JettyServerModel";
+import * as vscode from "vscode";
 import { MessageItem } from "vscode";
 import * as Constants from './Constants';
+import { JettyServer } from "./JettyServer";
+import { JettyServerModel } from "./JettyServerModel";
+import * as Utility from './Utility';
 export class JettyServerController {
+    private static terminal: vscode.Terminal = vscode.window.createTerminal('Jetty');
     constructor(private _jettyServerModel: JettyServerModel, private _extensionPath: string) {
     }
-
-    private static terminal: vscode.Terminal = vscode.window.createTerminal('Jetty');
 
     public async addServer(): Promise<JettyServer> {
         const pathPick: vscode.Uri[] = await vscode.window.showOpenDialog({
@@ -70,6 +69,9 @@ export class JettyServerController {
         throw new Error("Method not implemented.");
     }
 
+    // tslint:disable-next-line:no-empty
+    public dispose(): void {}
+
     private async precheck(server: JettyServer): Promise<JettyServer> {
         if (_.isEmpty(this._jettyServerModel.getServerSet())) {
             vscode.window.showInformationMessage('');
@@ -101,6 +103,4 @@ export class JettyServerController {
         }
     }
 
-    public dispose(): void {
-    }
 }

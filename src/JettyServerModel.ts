@@ -4,8 +4,8 @@ import * as fse from "fs-extra";
 import * as _ from "lodash";
 import * as path from "path";
 import * as vscode from "vscode";
-import * as Utility from "./Utility";
 import { JettyServer } from "./JettyServer";
+import * as Utility from "./Utility";
 
 export class JettyServerModel {
     private _serverList: JettyServer[] = [];
@@ -35,14 +35,14 @@ export class JettyServerModel {
         }
     }
 
-    public deleteServer(JettyServer: JettyServer): boolean {
+    public deleteServer(server: JettyServer): boolean {
         const index: number = this._serverList.findIndex((item: JettyServer) => item.name === JettyServer.name);
         if (index > -1) {
             const oldServer: JettyServer[] = this._serverList.splice(index, 1);
             if (!_.isEmpty(oldServer)) {
-                fse.remove(JettyServer.storagePath);
+                fse.remove(server.storagePath);
                 this.saveServerList();
-                JettyServer.outputChannel.dispose();
+                server.outputChannel.dispose();
                 return true;
             }
         }
@@ -50,12 +50,12 @@ export class JettyServerModel {
         return false;
     }
 
-    public addServer(JettyServer: JettyServer): void {
+    public addServer(server: JettyServer): void {
         const index: number = this._serverList.findIndex((item: JettyServer) => item.name === JettyServer.name);
         if (index > -1) {
             this._serverList.splice(index, 1);
         }
-        this._serverList.push(JettyServer);
+        this._serverList.push(server);
         this.saveServerList();
     }
 

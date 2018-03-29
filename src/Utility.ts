@@ -1,9 +1,9 @@
 'use strict';
 
-import * as vscode from "vscode";
 import * as fse from 'fs-extra';
-import * as path from 'path';
 import * as os from 'os';
+import * as path from 'path';
+import * as vscode from "vscode";
 
 export async function validateInstallPath(installPath: string): Promise<boolean> {
     const startJarFileExists: Promise<boolean> = fse.pathExists(path.join(installPath, 'start.jar'));
