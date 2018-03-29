@@ -7,8 +7,7 @@ import { JettyServer } from "./JettyServer";
 import * as Utility from './Utility';
 import { JettyServerModel } from "./JettyServerModel";
 import { MessageItem } from "vscode";
-import { DialogMessage } from './Constants';
-
+import * as Constants from './Constants';
 export class JettyServerController {
     constructor(private _jettyServerModel: JettyServerModel, private _extensionPath: string) {
     }
@@ -20,7 +19,7 @@ export class JettyServerController {
             defaultUri: vscode.workspace.rootPath ? vscode.Uri.file(vscode.workspace.rootPath) : undefined,
             canSelectFiles: false,
             canSelectFolders: true,
-            openLabel: "Select Jetty Directory"
+            openLabel: Constants.selectJettyDirectory
         });
         if (_.isEmpty(pathPick) || !pathPick[0].fsPath) {
             return;
@@ -51,8 +50,8 @@ export class JettyServerController {
         server = await this.precheck(server);
         if (server) {
             if (server.isRunning()) {
-                const confirmation: MessageItem = await vscode.window.showWarningMessage(DialogMessage.deleteConfirm, DialogMessage.yes , DialogMessage.cancel);
-                if (confirmation !== DialogMessage.yes) {
+                const confirmation: MessageItem = await vscode.window.showWarningMessage(Constants.deleteConfirm, Constants.yes , Constants.cancel);
+                if (confirmation !== Constants.yes) {
                     return;
                 }
                 await this.stopServer(server);
@@ -87,10 +86,10 @@ export class JettyServerController {
         if (items.length === 1) {
             return <JettyServer>items[0];
         }
-        items = createIfNoneServer ? items.concat({ label: `$(plus) ${'Add Jetty Server'}`, description: '' }) : items;
+        items = createIfNoneServer ? items.concat({ label: `$(plus) ${Constants.addServer}`, description: '' }) : items;
         const pick: vscode.QuickPickItem = await vscode.window.showQuickPick(
             items,
-            { placeHolder: createIfNoneServer && items.length === 1 ? 'Add Jetty Server' : 'Select Jetty Server' }
+            { placeHolder: createIfNoneServer && items.length === 1 ? Constants.addServer : Constants.selectServer }
         );
 
         if (pick) {
