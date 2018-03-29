@@ -22,7 +22,7 @@
     "onCommand:jetty.war.debug",
     "onCommand:jetty.war.deploy"
   ],
-  "main": "./out/extension",
+  "main": "./out/src/extension",
   "contributes": {
     "commands": [
       {
@@ -154,7 +154,7 @@
     "configuration": {
       "title": "Jetty Configuration",
       "properties": {
-        "tomcat.workspace": {
+        "jetty.workspace": {
           "type": "string",
           "description": "Jetty Servers workspace."
         }
