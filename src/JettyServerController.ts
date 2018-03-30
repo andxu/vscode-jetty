@@ -63,10 +63,12 @@ export class JettyServerController {
         JettyServerController.terminal.sendText(`java -jar ${jettyHome} ${server.startArguments} --stop`);
     }
     public async debugWarPackage(war: vscode.Uri): Promise<void> {
-        throw new Error("Method not implemented.");
+        // tslint:disable-next-line:no-console
+        console.log(war);
     }
     public async deployWarPackage(war: vscode.Uri): Promise<void> {
-        throw new Error("Method not implemented.");
+        // tslint:disable-next-line:no-console
+        console.log(war);
     }
 
     // tslint:disable-next-line:no-empty
