@@ -40,15 +40,29 @@ export class JettyServerController {
     }
 
     public async startServer(server: JettyServer): Promise<void> {
-        const jettyHome: string = path.join(server.installPath, 'start.jar');
-        JettyServerController.terminal.show();
-        JettyServerController.terminal.sendText(`java -jar ${jettyHome} "jetty.base=${server.storagePath}" ${server.startArguments}`);
+        server = server ? server : await this.selectServer(true);
+        if (server) {
+            if (server.isRunning()) {
+                vscode.window.showInformationMessage(Constants.serverRunning);
+                return;
+            }
+            try {
+                const javaProcess: Promise<void> = Utility.execute(server.outputChannel, 'java', { shell: true }, ...server.startArguments);
+                server.setStarted(true);
+                //this.startDebugSession(serverInfo);
+                await javaProcess;
+                server.setStarted(false);
+            } catch (err) {
+                server.setStarted(false);
+                vscode.window.showErrorMessage(err.toString());
+            }
+        }
     }
     public async deleteServer(server: JettyServer): Promise<void> {
         server = await this.precheck(server);
         if (server) {
             if (server.isRunning()) {
-                const confirmation: MessageItem = await vscode.window.showWarningMessage(Constants.deleteConfirm, Constants.yes , Constants.cancel);
+                const confirmation: MessageItem = await vscode.window.showWarningMessage(Constants.deleteConfirm, Constants.yes, Constants.cancel);
                 if (confirmation !== Constants.yes) {
                     return;
                 }
@@ -58,8 +72,14 @@ export class JettyServerController {
         }
     }
     public async stopServer(server: JettyServer): Promise<void> {
-        const jettyHome: string = path.join(server.installPath, 'start.jar');
-        JettyServerController.terminal.sendText(`java -jar ${jettyHome} "jetty.base=${server.storagePath}" ${server.startArguments} --stop`);
+        server = await this.precheck(server);
+        if (server) {
+            if (!server.isRunning) {
+                vscode.window.showInformationMessage(Constants.serverStopped);
+                return;
+            }
+            await Utility.execute(server.outputChannel, 'java', { shell: true }, ...server.startArguments.concat('--stop'));
+        }
     }
     public async debugWarPackage(war: vscode.Uri): Promise<void> {
         // tslint:disable-next-line:no-console
@@ -71,7 +91,7 @@ export class JettyServerController {
     }
 
     // tslint:disable-next-line:no-empty
-    public dispose(): void {}
+    public dispose(): void { }
 
     private async precheck(server: JettyServer): Promise<JettyServer> {
         if (_.isEmpty(this._jettyServerModel.getServerSet())) {

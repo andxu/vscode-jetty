@@ -41,8 +41,8 @@ export class JettyServerTreeProvider implements vscode.TreeDataProvider<vscode.T
                     if (w.toUpperCase() !== 'ROOT') {
                         temp = await fse.stat(path.join(webapps, w));
                         fileExtension = path.extname(path.join(webapps, w));
-                        if (temp.isDirectory() || (temp.isFile() && fileExtension === Constants.WAR_FILE_EXTENSION)) {
-                            wars.push(fileExtension === Constants.WAR_FILE_EXTENSION ? path.basename(w, fileExtension) : w);
+                        if (temp.isDirectory() || (temp.isFile() && fileExtension === Constants.warFileExtension)) {
+                            wars.push(fileExtension === Constants.warFileExtension ? path.basename(w, fileExtension) : w);
                         }
                     }
                 });

@@ -13,7 +13,10 @@ export const selectJettyDirectory: string = 'Select Jetty Directory';
 
 export const deleteConfirm: string = 'This Jetty Server is running, are you sure you want to delete it?';
 
-export const WAR_FILE_EXTENSION: string = '.war';
+export const serverRunning: string = 'This Jetty Serverrver is running.';
+
+export const serverStopped: string = 'This Jetty Server is not running.';
+export const warFileExtension: string = '.war';
 
 export enum ServerState {
     RunningServer = 'runningserver',
