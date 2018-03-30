@@ -7,9 +7,19 @@
   "engines": {
     "vscode": "^1.21.0"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/summersun/vscode-jetty"
+  },
   "categories": [
+    "Languages",
     "Other"
   ],
+  "keywords": [
+    "Java",
+    "Jetty"
+  ],
+  "homepage": "https://github.com/SummerSun/vscode-jetty/blob/master/README.md",
   "activationEvents": [
     "onCommand:jetty.tree.refresh",
     "onCommand:jetty.server.add",
