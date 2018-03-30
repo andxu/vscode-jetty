@@ -140,6 +140,8 @@ export class JettyServerController {
     }
 
     public async restartServer(server: JettyServer): Promise<void> {
+        // tslint:disable-next-line:no-console
+        console.log(server);
         return undefined;
     }
 
