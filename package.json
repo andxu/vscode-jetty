@@ -1,6 +1,6 @@
 {
   "name": "vscode-jetty",
-  "displayName": "vscode-jetty",
+  "displayName": "Jetty",
   "description": "Jetty for VS Code.",
   "version": "0.1.0",
   "publisher": "SummerSun",
