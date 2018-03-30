@@ -36,9 +36,11 @@ export class JettyServerController {
         const jettyBase: string = await Utility.getServerStoragePath(this._jettyServerModel.defaultStoragePath, serverName);
         const newServer: JettyServer = new JettyServer(serverName, installPath, jettyBase);
         this._jettyServerModel.addServer(newServer);
-        JettyServerController.terminal.show();
-        JettyServerController.terminal.sendText(`java -jar ${jettyHome} "jetty.base=${jettyBase}" --create-startd`);
-        JettyServerController.terminal.sendText(`java -jar ${jettyHome} "jetty.base=${jettyBase}" --add-to-start=http,deploy`);
+        await Promise.all([
+            fse.copy(path.join(installPath, 'demo-base', 'start.d'), path.join(jettyBase, 'start.d')),
+            fse.copy(path.join(installPath, 'demo-base', 'etc'), path.join(jettyBase, 'etc')),
+            fse.mkdirs('webapps')
+        ]);
         return newServer;
     }
 
@@ -52,7 +54,7 @@ export class JettyServerController {
             try {
                 const javaProcess: Promise<void> = Utility.execute(server.outputChannel, 'java', { shell: true }, ...server.startArguments);
                 server.setStarted(true);
-                //this.startDebugSession(serverInfo);
+                //this.startDebugSession(server);
                 await javaProcess;
                 server.setStarted(false);
             } catch (err) {
@@ -86,12 +88,7 @@ export class JettyServerController {
             await Utility.execute(server.outputChannel, 'java', { shell: true }, ...server.startArguments.concat('--stop'));
         }
     }
-
-    public async debugWarPackage(war: vscode.Uri): Promise<void> {
-        // tslint:disable-next-line:no-console
-        console.log(war);
-    }
-    public async deployWarPackage(uri: vscode.Uri, debug?: boolean): Promise<void> {
+    public async runWarPackage(uri: vscode.Uri, debug?: boolean): Promise<void> {
         if (!uri) {
             const dialog: vscode.Uri[] = await vscode.window.showOpenDialog({
                 defaultUri: vscode.workspace.rootPath ? vscode.Uri.file(vscode.workspace.rootPath) : undefined,
@@ -169,13 +166,13 @@ export class JettyServerController {
     // tslint:disable-next-line:no-empty
     public dispose(): void { }
 
-    private async deployPackage(serverInfo: JettyServer, packagePath: string): Promise<void> {
+    private async deployPackage(server: JettyServer, packagePath: string): Promise<void> {
         const appName: string =  path.basename(packagePath, path.extname(packagePath));
-        const appPath: string = path.join(serverInfo.storagePath, 'webapps', appName);
+        const appPath: string = path.join(server.storagePath, 'webapps', appName);
 
         await fse.remove(appPath);
         await fse.mkdirs(appPath);
-        await Utility.execute(serverInfo.outputChannel, 'jar', {cwd: appPath}, 'xvf', `${packagePath}`);
+        await fse.copy(packagePath, path.join(server.storagePath, 'webapps', path.basename(packagePath)));
         vscode.commands.executeCommand('jetty.tree.refresh');
     }
 

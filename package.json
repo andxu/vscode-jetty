@@ -2,7 +2,7 @@
   "name": "vscode-jetty",
   "displayName": "Jetty",
   "description": "Jetty for VS Code.",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "publisher": "SummerSun",
   "engines": {
     "vscode": "^1.21.0"
@@ -30,7 +30,7 @@
     "onCommand:jetty.server.delete",
     "onCommand:jetty.server.delete.context",
     "onCommand:jetty.war.debug",
-    "onCommand:jetty.war.deploy"
+    "onCommand:jetty.war.run"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -94,13 +94,13 @@
         "category": "Jetty"
       },
       {
-        "command": "jetty.war.deploy",
-        "title": "Deploy War Server to Jetty Server",
+        "command": "jetty.war.run",
+        "title": "Run on Jetty Server",
         "category": "Jetty"
       },
       {
         "command": "jetty.war.debug",
-        "title": "Debug War Server on Jetty Server",
+        "title": "Debug on Jetty Server",
         "category": "Jetty"
       }
     ],
@@ -149,7 +149,7 @@
       ],
       "explorer/context": [
         {
-          "command": "jetty.war.deploy",
+          "command": "jetty.war.run",
           "when": "explorerResourceIsFolder == false && resourceExtname == .war"
         },
         {

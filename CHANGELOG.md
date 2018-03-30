@@ -3,7 +3,11 @@ All notable changes to the "vscode-jetty" extension will be documented in this f
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## 0.2.0
+## 0.1.2
+### Added
+* Enable run war package on jetty server
+
+## 0.1.1
 ### Added
 * Rename Jetty Server
 
