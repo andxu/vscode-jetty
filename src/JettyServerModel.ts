@@ -36,7 +36,7 @@ export class JettyServerModel {
     }
 
     public deleteServer(server: JettyServer): boolean {
-        const index: number = this._serverList.findIndex((item: JettyServer) => item.name === JettyServer.name);
+        const index: number = this._serverList.findIndex((item: JettyServer) => item.name === server.name);
         if (index > -1) {
             const oldServer: JettyServer[] = this._serverList.splice(index, 1);
             if (!_.isEmpty(oldServer)) {
@@ -51,7 +51,7 @@ export class JettyServerModel {
     }
 
     public addServer(server: JettyServer): void {
-        const index: number = this._serverList.findIndex((item: JettyServer) => item.name === JettyServer.name);
+        const index: number = this._serverList.findIndex((item: JettyServer) => item.name === server.name);
         if (index > -1) {
             this._serverList.splice(index, 1);
         }

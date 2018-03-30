@@ -12,7 +12,7 @@ import { WarPackage } from "./WarPackage";
 
 export class JettyServerTreeProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
     public _onDidChangeTreeData: vscode.EventEmitter<TreeItem> = new vscode.EventEmitter<TreeItem>();
-    public onDidChangeTreeData?: vscode.Event<vscode.TreeItem> = this._onDidChangeTreeData.event;
+    public readonly onDidChangeTreeData?: vscode.Event<vscode.TreeItem> = this._onDidChangeTreeData.event;
     constructor(private _context: vscode.ExtensionContext, private _tomcatModel: JettyServerModel) {
         this._onDidChangeTreeData.fire();
     }

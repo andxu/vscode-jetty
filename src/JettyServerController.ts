@@ -34,16 +34,15 @@ export class JettyServerController {
         const newServer: JettyServer = new JettyServer(serverName, installPath, jettyBase);
         this._jettyServerModel.addServer(newServer);
         JettyServerController.terminal.show();
-        JettyServerController.terminal.sendText(`java -jar ${jettyHome} --create-startd`);
-        JettyServerController.terminal.sendText(`java -jar ${jettyHome} --add-to-start=http,deploy`);
+        JettyServerController.terminal.sendText(`java -jar ${jettyHome} "jetty.base=${jettyBase}" --create-startd`);
+        JettyServerController.terminal.sendText(`java -jar ${jettyHome} "jetty.base=${jettyBase}" --add-to-start=http,deploy`);
         return newServer;
     }
 
     public async startServer(server: JettyServer): Promise<void> {
         const jettyHome: string = path.join(server.installPath, 'start.jar');
-        const jettyBase: string = path.join(this._jettyServerModel.defaultStoragePath, server.name);
         JettyServerController.terminal.show();
-        JettyServerController.terminal.sendText(`javar -jar ${jettyHome} "jetty.base=${jettyBase}" ${server.startArguments}`);
+        JettyServerController.terminal.sendText(`java -jar ${jettyHome} "jetty.base=${server.storagePath}" ${server.startArguments}`);
     }
     public async deleteServer(server: JettyServer): Promise<void> {
         server = await this.precheck(server);
@@ -60,7 +59,7 @@ export class JettyServerController {
     }
     public async stopServer(server: JettyServer): Promise<void> {
         const jettyHome: string = path.join(server.installPath, 'start.jar');
-        JettyServerController.terminal.sendText(`java -jar ${jettyHome} ${server.startArguments} --stop`);
+        JettyServerController.terminal.sendText(`java -jar ${jettyHome} "jetty.base=${server.storagePath}" ${server.startArguments} --stop`);
     }
     public async debugWarPackage(war: vscode.Uri): Promise<void> {
         // tslint:disable-next-line:no-console
