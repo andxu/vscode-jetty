@@ -16,6 +16,11 @@ export const deleteConfirm: string = 'This Jetty Server is running, are you sure
 export const serverRunning: string = 'This Jetty Serverrver is running.';
 
 export const serverStopped: string = 'This Jetty Server is not running.';
+
+export const selectWarPackage: string = 'Select War Package';
+
+export const noPackage: string = 'The selected package is not under current workspace.';
+
 export const warFileExtension: string = '.war';
 
 export enum ServerState {

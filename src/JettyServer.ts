@@ -7,12 +7,13 @@ export class JettyServer extends vscode.TreeItem implements vscode.QuickPickItem
     public label: string;
     public description: string;
     public detail?: string;
-
-    public state: Constants.ServerState;
-
-    public startArguments: string[];
-
     public outputChannel: vscode.OutputChannel;
+    public startArguments: string[];
+    public state: Constants.ServerState;
+    private _isDebugging: boolean = false;
+    private _debugPort: number;
+    private _debugWorkspace: vscode.WorkspaceFolder;
+
     constructor(public name: string, public installPath: string, public storagePath: string) {
         super(name);
         this.outputChannel = vscode.window.createOutputChannel(`jetty_${this.name}`);
@@ -27,6 +28,26 @@ export class JettyServer extends vscode.TreeItem implements vscode.QuickPickItem
 
     public isRunning(): boolean {
         return this.state === Constants.ServerState.RunningServer;
+    }
+
+    public isDebugging(): boolean {
+        return this._isDebugging;
+    }
+
+    public setDebugInfo(debugging: boolean, port: number, workspace: vscode.WorkspaceFolder): void {
+        this._isDebugging = debugging;
+        this._debugPort = port;
+        this._debugWorkspace = workspace;
+    }
+
+    public clearDebugInfo(): void {
+        this._isDebugging = false;
+        this._debugPort = undefined;
+        this._debugWorkspace = undefined;
+    }
+
+    public getDebugPort(): number {
+        return this._debugPort;
     }
 
     public rename(newName: string): void {

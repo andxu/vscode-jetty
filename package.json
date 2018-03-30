@@ -208,6 +208,7 @@
   },
   "dependencies": {
     "fs-extra": "^5.0.0",
-    "lodash": "^4.17.5"
+    "lodash": "^4.17.5",
+    "portfinder": "^1.0.13"
   }
 }

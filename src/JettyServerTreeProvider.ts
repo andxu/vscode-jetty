@@ -13,7 +13,7 @@ import { WarPackage } from "./WarPackage";
 export class JettyServerTreeProvider implements vscode.TreeDataProvider<vscode.TreeItem> {
     public _onDidChangeTreeData: vscode.EventEmitter<TreeItem> = new vscode.EventEmitter<TreeItem>();
     public readonly onDidChangeTreeData?: vscode.Event<vscode.TreeItem> = this._onDidChangeTreeData.event;
-    constructor(private _context: vscode.ExtensionContext, private _tomcatModel: JettyServerModel) {
+    constructor(private _context: vscode.ExtensionContext, private _jettyModel: JettyServerModel) {
         this._onDidChangeTreeData.fire();
     }
     public getTreeItem(element: vscode.TreeItem): vscode.TreeItem | Thenable<vscode.TreeItem> {
@@ -21,7 +21,7 @@ export class JettyServerTreeProvider implements vscode.TreeDataProvider<vscode.T
     }
     public async getChildren(element?: vscode.TreeItem): Promise<TreeItem[]> {
         if (!element) {
-            return this._tomcatModel.getServerSet().map((server: JettyServer) => {
+            return this._jettyModel.getServerSet().map((server: JettyServer) => {
                 server.iconPath = this._context.asAbsolutePath(path.join('resources', `${server.state}.svg`));
                 server.contextValue = server.state;
                 server.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;

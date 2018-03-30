@@ -1,13 +1,16 @@
 'use strict';
 
+import * as fse from 'fs-extra';
 import * as _ from "lodash";
 import * as path from "path";
+import * as portfinder from 'portfinder';
 import * as vscode from "vscode";
 import { MessageItem } from "vscode";
 import * as Constants from './Constants';
 import { JettyServer } from "./JettyServer";
 import { JettyServerModel } from "./JettyServerModel";
 import * as Utility from './Utility';
+
 export class JettyServerController {
     private static terminal: vscode.Terminal = vscode.window.createTerminal('Jetty');
     constructor(private _jettyServerModel: JettyServerModel, private _extensionPath: string) {
@@ -88,9 +91,56 @@ export class JettyServerController {
         // tslint:disable-next-line:no-console
         console.log(war);
     }
-    public async deployWarPackage(war: vscode.Uri): Promise<void> {
-        // tslint:disable-next-line:no-console
-        console.log(war);
+    public async deployWarPackage(uri: vscode.Uri, debug?: boolean): Promise<void> {
+        if (!uri) {
+            const dialog: vscode.Uri[] = await vscode.window.showOpenDialog({
+                defaultUri: vscode.workspace.rootPath ? vscode.Uri.file(vscode.workspace.rootPath) : undefined,
+                canSelectFiles: true,
+                canSelectFolders: false,
+                openLabel: Constants.selectWarPackage
+            });
+            if (_.isEmpty(dialog) || !dialog[0].fsPath) {
+                return;
+            }
+            uri = dialog[0];
+        }
+
+        const packagePath: string = uri.fsPath;
+        const server: JettyServer = await this.selectServer(true);
+        if (!server) {
+            return;
+        }
+        await this.deployPackage(server, packagePath);
+        if (server.isRunning() && ((!server.isDebugging() && !debug) || server.isDebugging() === debug)) {
+            return;
+        }
+        let port: number;
+        let workspaceFolder: vscode.WorkspaceFolder;
+
+        if (debug) {
+            if (vscode.workspace.workspaceFolders) {
+                workspaceFolder = vscode.workspace.workspaceFolders.find((f: vscode.WorkspaceFolder): boolean => {
+                    const relativePath: string = path.relative(f.uri.fsPath, packagePath);
+                    return relativePath === '' || (!relativePath.startsWith('..') && relativePath !== packagePath);
+                });
+            }
+            if (!workspaceFolder) {
+                vscode.window.showErrorMessage(Constants.noPackage);
+                return;
+            }
+            port = await portfinder.getPortPromise();
+        }
+
+        server.setDebugInfo(debug, port, workspaceFolder);
+        if (server.isRunning()) {
+            await this.restartServer(server);
+        } else {
+            await this.startServer(server);
+        }
+    }
+
+    public async restartServer(server: JettyServer): Promise<void> {
+        return undefined;
     }
 
     public async renameServer(server: JettyServer): Promise<void> {
@@ -116,6 +166,16 @@ export class JettyServerController {
 
     // tslint:disable-next-line:no-empty
     public dispose(): void { }
+
+    private async deployPackage(serverInfo: JettyServer, packagePath: string): Promise<void> {
+        const appName: string =  path.basename(packagePath, path.extname(packagePath));
+        const appPath: string = path.join(serverInfo.storagePath, 'webapps', appName);
+
+        await fse.remove(appPath);
+        await fse.mkdirs(appPath);
+        await Utility.execute(serverInfo.outputChannel, 'jar', {cwd: appPath}, 'xvf', `${packagePath}`);
+        vscode.commands.executeCommand('jetty.tree.refresh');
+    }
 
     private async precheck(server: JettyServer): Promise<JettyServer> {
         if (_.isEmpty(this._jettyServerModel.getServerSet())) {

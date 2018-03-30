@@ -13,4 +13,4 @@ Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how 
 * Add Jetty server from download directory
 * Start Jetty Server
 * Stop Jetty Server
-* Delete Jetty Tomcat server
+* Delete Jetty server

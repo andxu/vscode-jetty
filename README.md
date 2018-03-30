@@ -1,7 +1,7 @@
 # Jetty for Visual Studio Code
 
 ## Prerequisites
-* [Apache Tomcat](http://tomcat.apache.org/)
+* [Jetty Server](https://www.eclipse.org/jetty/)
 * [Debugger for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-debug)
 
 ## Usage
