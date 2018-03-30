@@ -18,6 +18,8 @@ export function activate(context: vscode.ExtensionContext): void {
     context.subscriptions.push(vscode.window.registerTreeDataProvider('jettyServerExplorer', jettyServerTree));
 
     context.subscriptions.push(vscode.commands.registerCommand('jetty.server.add', () => { jettyServerController.addServer(); }));
+    context.subscriptions.push(vscode.commands.registerCommand('jetty.server.rename', (server: JettyServer) => jettyServerController.renameServer(server)));
+    context.subscriptions.push(vscode.commands.registerCommand('jetty.server.rename.context', (server: JettyServer) => jettyServerController.renameServer(server)));
     context.subscriptions.push(vscode.commands.registerCommand('jetty.server.start', (server: JettyServer) => { jettyServerController.startServer(server); }));
     context.subscriptions.push(vscode.commands.registerCommand('jetty.server.start.context', (server: JettyServer) => { jettyServerController.startServer(server); }));
     context.subscriptions.push(vscode.commands.registerCommand('jetty.server.stop', (server: JettyServer) => { jettyServerController.stopServer(server); }));

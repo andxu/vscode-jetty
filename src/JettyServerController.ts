@@ -58,6 +58,7 @@ export class JettyServerController {
             }
         }
     }
+
     public async deleteServer(server: JettyServer): Promise<void> {
         server = await this.precheck(server);
         if (server) {
@@ -71,6 +72,7 @@ export class JettyServerController {
             this._jettyServerModel.deleteServer(server);
         }
     }
+
     public async stopServer(server: JettyServer): Promise<void> {
         server = await this.precheck(server);
         if (server) {
@@ -81,6 +83,7 @@ export class JettyServerController {
             await Utility.execute(server.outputChannel, 'java', { shell: true }, ...server.startArguments.concat('--stop'));
         }
     }
+
     public async debugWarPackage(war: vscode.Uri): Promise<void> {
         // tslint:disable-next-line:no-console
         console.log(war);
@@ -88,6 +91,27 @@ export class JettyServerController {
     public async deployWarPackage(war: vscode.Uri): Promise<void> {
         // tslint:disable-next-line:no-console
         console.log(war);
+    }
+
+    public async renameServer(server: JettyServer): Promise<void> {
+        server = await this.precheck(server);
+        if (server) {
+            const newName: string = await vscode.window.showInputBox({
+                prompt: 'input a new server name',
+                validateInput: (name: string): string => {
+                    if (!name.match(/^[\w.-]+$/)) {
+                        return 'please input a valid server name';
+                    } else if (this._jettyServerModel.getJettyServer(name)) {
+                        return 'the name was already taken, please re-input';
+                    }
+                    return null;
+                }
+            });
+            if (newName) {
+                server.rename(newName);
+                await this._jettyServerModel.saveServerList();
+            }
+        }
     }
 
     // tslint:disable-next-line:no-empty

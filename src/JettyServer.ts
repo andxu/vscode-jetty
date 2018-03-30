@@ -28,4 +28,9 @@ export class JettyServer extends vscode.TreeItem implements vscode.QuickPickItem
     public isRunning(): boolean {
         return this.state === Constants.ServerState.RunningServer;
     }
+
+    public rename(newName: string): void {
+        this.name = newName;
+        this.label = newName;
+    }
 }

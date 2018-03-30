@@ -59,6 +59,16 @@
         "category": "Jetty"
       },
       {
+        "command": "jetty.server.rename",
+        "title": "Rename Jetty Server",
+        "category": "Jetty"
+      },
+      {
+        "command": "jetty.server.rename.context",
+        "title": "Rename",
+        "category": "Jetty"
+      },
+      {
         "command": "jetty.server.start.context",
         "title": "Start",
         "category": "Jetty"
@@ -131,6 +141,10 @@
         {
           "command": "jetty.server.delete.context",
           "when": "never"
+        },
+        {
+          "command": "jetty.server.rename.context",
+          "when": "never"
         }
       ],
       "explorer/context": [
@@ -153,6 +167,11 @@
           "command": "jetty.server.stop.context",
           "when": "view == jettyServerExplorer && viewItem == runningserver",
           "group": "jetty@1"
+        },
+        {
+          "command": "jetty.server.rename.context",
+          "when": "view == jettyServerExplorer && viewItem && viewItem != war",
+          "group": "jetty@2"
         },
         {
           "command": "jetty.server.delete.context",
