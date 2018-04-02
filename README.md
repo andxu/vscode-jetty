@@ -10,6 +10,9 @@
 * Add Jetty Server from download directory
 * View the Jetty Servers in VSCode Tree Explorer
 * Start/Stop/Delete Jetty Server from VSCode
+* Run war package in Jetty Server
+* Open Server homepage in browser
+* Open war package home page in browser
 
 ## Contributing
 
