@@ -48,7 +48,7 @@ export class JettyServerController {
         return newServer;
     }
 
-    public async startServer(server: JettyServer): Promise<void> {
+    public async startServer(server: JettyServer, debug?: boolean): Promise<void> {
         server = server ? server : await this.selectServer(true);
         if (server) {
             if (server.isRunning()) {
@@ -56,9 +56,12 @@ export class JettyServerController {
                 return;
             }
             try {
-                const javaProcess: Promise<void> = Utility.execute(server.outputChannel, 'java', { shell: true }, ...server.startArguments);
+                const args: string[] = debug ? server.startArguments.concat(['-Xdebug', '"-agentlib:jdwp=transport=dt_socket,address=9999,server=y,suspend=n"']) : server.startArguments;
+                const javaProcess: Promise<void> = Utility.execute(server.outputChannel, 'java', { shell: true }, args);
                 server.setStarted(true);
-                this.startDebugSession(server);
+                if (debug) {
+                    this.startDebugSession(server);
+                }
                 await javaProcess;
                 server.setStarted(false);
             } catch (err) {
@@ -89,7 +92,7 @@ export class JettyServerController {
                 vscode.window.showInformationMessage(Constants.serverStopped);
                 return;
             }
-            await Utility.execute(server.outputChannel, 'java', { shell: true }, ...server.startArguments.concat('--stop'));
+            await Utility.execute(server.outputChannel, 'java', { shell: true }, server.startArguments.concat('--stop'));
         }
     }
     public async runWarPackage(uri: vscode.Uri, debug?: boolean): Promise<void> {
@@ -134,16 +137,9 @@ export class JettyServerController {
 
         server.setDebugInfo(debug, port, workspaceFolder);
         if (server.isRunning()) {
-            await this.restartServer(server);
-        } else {
-            await this.startServer(server);
+            await this.stopServer(server);
         }
-    }
-
-    public async restartServer(server: JettyServer): Promise<void> {
-        // tslint:disable-next-line:no-console
-        console.log(server);
-        return undefined;
+        await this.startServer(server, debug);
     }
 
     public async browseServer(server: JettyServer): Promise<void> {
@@ -183,7 +179,8 @@ export class JettyServerController {
     public async deleteWarPackage(warPackage: WarPackage): Promise<void> {
         if (warPackage) {
             await fse.remove(warPackage.storagePath);
-            vscode.commands.executeCommand('tomcat.tree.refresh');
+            await fse.remove(`${warPackage.storagePath}.war`);
+            vscode.commands.executeCommand('jetty.tree.refresh');
         }
     }
 
@@ -230,7 +227,7 @@ export class JettyServerController {
     }
 
     private async deployPackage(server: JettyServer, packagePath: string): Promise<void> {
-        const appName: string =  path.basename(packagePath, path.extname(packagePath));
+        const appName: string = path.basename(packagePath, path.extname(packagePath));
         const appPath: string = path.join(server.storagePath, 'webapps', appName);
 
         await fse.remove(appPath);

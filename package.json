@@ -195,14 +195,6 @@
         {
           "command": "jetty.war.debug",
           "when": "explorerResourceIsFolder == false && resourceExtname == .war"
-        },
-        {
-          "command": "jetty.war.run",
-          "when": "explorerResourceIsFolder"
-        },
-        {
-          "command": "jetty.war.debug",
-          "when": "explorerResourceIsFolder"
         }
       ],
       "view/item/context": [
@@ -214,17 +206,17 @@
         {
           "command": "jetty.server.stop.context",
           "when": "view == jettyServerExplorer && viewItem == runningserver",
-          "group": "jetty@1"
+          "group": "jetty@2"
         },
         {
           "command": "jetty.server.rename.context",
           "when": "view == jettyServerExplorer && viewItem && viewItem != war",
-          "group": "jetty@2"
+          "group": "jetty@3"
         },
         {
           "command": "jetty.server.browse",
           "when": "view == jettyServerExplorer && viewItem && viewItem != war",
-          "group": "jetty@3"
+          "group": "jetty@4"
         },
         {
           "command": "jetty.war.browse",
