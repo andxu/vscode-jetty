@@ -2,7 +2,8 @@
   "name": "vscode-jetty",
   "displayName": "Jetty",
   "description": "Jetty for VS Code.",
-  "version": "0.1.2",
+  "version": "0.1.3",
+  "icon": "resources/icon.png",
   "publisher": "SummerSun",
   "engines": {
     "vscode": "^1.21.0"
@@ -29,7 +30,11 @@
     "onCommand:jetty.server.stop.context",
     "onCommand:jetty.server.delete",
     "onCommand:jetty.server.delete.context",
+    "onCommand:jetty.server.browse",
     "onCommand:jetty.war.debug",
+    "onCommand:jetty.war.delete",
+    "onCommand:jetty.war.browse",
+    "onCommand:jetty.war.reveal",
     "onCommand:jetty.war.run"
   ],
   "main": "./out/src/extension",
@@ -102,6 +107,26 @@
         "command": "jetty.war.debug",
         "title": "Debug on Jetty Server",
         "category": "Jetty"
+      },
+      {
+        "command": "jetty.server.browse",
+        "title": "Open in Browser",
+        "category": "Jetty"
+      },
+      {
+        "command": "jetty.war.delete",
+        "title": "Delete",
+        "category": "Jetty"
+      },
+      {
+        "command": "jetty.war.reveal",
+        "title": "Reveal In Explorer",
+        "category": "Jetty"
+      },
+      {
+        "command": "jetty.war.browse",
+        "title": "Open in Browser",
+        "category": "Jetty"
       }
     ],
     "views": {
@@ -145,6 +170,22 @@
         {
           "command": "jetty.server.rename.context",
           "when": "never"
+        },
+        {
+          "command": "jetty.server.browse",
+          "when": "never"
+        },
+        {
+          "command": "jetty.war.delete",
+          "when": "never"
+        },
+        {
+          "command": "jetty.war.browse",
+          "when": "never"
+        },
+        {
+          "command": "jetty.war.reveal",
+          "when": "never"
         }
       ],
       "explorer/context": [
@@ -172,6 +213,26 @@
           "command": "jetty.server.rename.context",
           "when": "view == jettyServerExplorer && viewItem && viewItem != war",
           "group": "jetty@2"
+        },
+        {
+          "command": "jetty.server.browse",
+          "when": "view == jettyServerExplorer && viewItem && viewItem != war",
+          "group": "jetty@3"
+        },
+        {
+          "command": "jetty.war.browse",
+          "when": "view == jettyServerExplorer && viewItem == war",
+          "group": "war@0"
+        },
+        {
+          "command": "jetty.war.reveal",
+          "when": "view == jettyServerExplorer && viewItem == war",
+          "group": "war@1"
+        },
+        {
+          "command": "jetty.war.delete",
+          "when": "view == jettyServerExplorer && viewItem == war",
+          "group": "war@2"
         },
         {
           "command": "jetty.server.delete.context",
@@ -208,7 +269,9 @@
   },
   "dependencies": {
     "fs-extra": "^5.0.0",
+    "ini": "^1.3.5",
     "lodash": "^4.17.5",
+    "opn": "^5.3.0",
     "portfinder": "^1.0.13"
   }
 }

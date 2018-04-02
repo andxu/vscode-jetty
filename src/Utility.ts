@@ -2,6 +2,7 @@
 
 import * as child_process from "child_process";
 import * as fse from 'fs-extra';
+import * as ini from 'ini';
 import * as os from 'os';
 import * as path from 'path';
 import * as vscode from "vscode";
@@ -34,6 +35,16 @@ export async function execute(outputChannel: vscode.OutputChannel, command: stri
             resolve();
         });
     });
+}
+
+export async function getConfig(storagePath: string, file: string, key: string): Promise<string> {
+    // tslint:disable-next-line:no-any
+    let config: any = ini.parse(await fse.readFile(path.join(storagePath, 'start.d', file), 'utf-8'));
+    if (!config[key]) {
+        config = ini.parse(await fse.readFile(path.join(storagePath, 'start.ini'), 'utf-8'));
+        return config[key] ? config[key] : '8080';
+    }
+    return config[key];
 }
 
 export async function getServerName(installPath: string, defaultStoragePath: string): Promise<string> {

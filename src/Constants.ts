@@ -19,6 +19,13 @@ export const serverStopped: string = 'This Jetty Server is not running.';
 
 export const selectWarPackage: string = 'Select War Package';
 
+export const startServer: string = 'The Jetty server needs to be started before browsing. Would you like to start it now?';
+
+// tslint:disable-next-line:no-http-string
+export const localhost: string = 'http://localhost';
+
+export const httpPortUndefined: string = 'Error: server http port is undefined!';
+
 export const noPackage: string = 'The selected package is not under current workspace.';
 
 export const warFileExtension: string = '.war';

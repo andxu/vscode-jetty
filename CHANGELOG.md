@@ -3,6 +3,12 @@ All notable changes to the "vscode-jetty" extension will be documented in this f
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 0.1.3
+### Added
+* Add server command: open in browser
+* Show war packages deployed to server in sub-tree
+* Enable delete/browse/reveal war package
+
 ## 0.1.2
 ### Added
 * Enable run war package on jetty server

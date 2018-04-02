@@ -2,14 +2,17 @@
 
 import * as fse from 'fs-extra';
 import * as _ from "lodash";
+import * as opn from 'opn';
 import * as path from "path";
 import * as portfinder from 'portfinder';
+import { URL } from 'url';
 import * as vscode from "vscode";
 import { MessageItem } from "vscode";
 import * as Constants from './Constants';
 import { JettyServer } from "./JettyServer";
 import { JettyServerModel } from "./JettyServerModel";
 import * as Utility from './Utility';
+import { WarPackage } from './WarPackage';
 
 export class JettyServerController {
     private static terminal: vscode.Terminal = vscode.window.createTerminal('Jetty');
@@ -38,8 +41,9 @@ export class JettyServerController {
         this._jettyServerModel.addServer(newServer);
         await Promise.all([
             fse.copy(path.join(installPath, 'demo-base', 'start.d'), path.join(jettyBase, 'start.d')),
+            fse.copy(path.join(installPath, 'start.ini'), path.join(jettyBase, 'start.ini')),
             fse.copy(path.join(installPath, 'demo-base', 'etc'), path.join(jettyBase, 'etc')),
-            fse.mkdirs('webapps')
+            fse.mkdirs(path.join(jettyBase, 'webapps'))
         ]);
         return newServer;
     }
@@ -142,6 +146,19 @@ export class JettyServerController {
         return undefined;
     }
 
+    public async browseServer(server: JettyServer): Promise<void> {
+        if (server) {
+            if (!server.isRunning()) {
+                const result: MessageItem = await vscode.window.showInformationMessage(Constants.startServer, Constants.yes, Constants.no);
+                if (result === Constants.yes) {
+                    this.startServer(server);
+                }
+            }
+            const httpPort: string = await Utility.getConfig(server.storagePath, 'http.ini', 'jetty.http.port');
+            opn(new URL(`${Constants.localhost}:${httpPort}`).toString());
+        }
+    }
+
     public async renameServer(server: JettyServer): Promise<void> {
         server = await this.precheck(server);
         if (server) {
@@ -160,6 +177,37 @@ export class JettyServerController {
                 server.rename(newName);
                 await this._jettyServerModel.saveServerList();
             }
+        }
+    }
+
+    public async deleteWarPackage(warPackage: WarPackage): Promise<void> {
+        if (warPackage) {
+            await fse.remove(warPackage.storagePath);
+            vscode.commands.executeCommand('tomcat.tree.refresh');
+        }
+    }
+
+    public revealWarPackage(warPackage: WarPackage): void {
+        if (warPackage) {
+            opn(warPackage.storagePath);
+        }
+    }
+
+    public async browseWarPackage(warPackage: WarPackage): Promise<void> {
+        if (warPackage) {
+            const server: JettyServer = this._jettyServerModel.getJettyServer(warPackage.serverName);
+            const httpPort: string = await Utility.getConfig(server.storagePath, 'http.ini', 'jetty.http.port');
+            if (!httpPort) {
+                vscode.window.showErrorMessage('');
+                return;
+            }
+            if (!server.isRunning()) {
+                const result: MessageItem = await vscode.window.showInformationMessage(Constants.startServer, Constants.yes, Constants.no);
+                if (result === Constants.yes) {
+                    this.startServer(server);
+                }
+            }
+            opn(new URL(warPackage.label, `${Constants.localhost}:${httpPort}`).toString());
         }
     }
 
