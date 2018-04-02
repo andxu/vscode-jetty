@@ -13,7 +13,6 @@
     "url": "https://github.com/summersun/vscode-jetty"
   },
   "categories": [
-    "Languages",
     "Other"
   ],
   "keywords": [
@@ -196,6 +195,14 @@
         {
           "command": "jetty.war.debug",
           "when": "explorerResourceIsFolder == false && resourceExtname == .war"
+        },
+        {
+          "command": "jetty.war.run",
+          "when": "explorerResourceIsFolder"
+        },
+        {
+          "command": "jetty.war.debug",
+          "when": "explorerResourceIsFolder"
         }
       ],
       "view/item/context": [

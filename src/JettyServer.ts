@@ -40,6 +40,10 @@ export class JettyServer extends vscode.TreeItem implements vscode.QuickPickItem
         this._debugWorkspace = workspace;
     }
 
+    public getDebugWorkspace(): vscode.WorkspaceFolder {
+        return this._debugWorkspace;
+    }
+
     public clearDebugInfo(): void {
         this._isDebugging = false;
         this._debugPort = undefined;

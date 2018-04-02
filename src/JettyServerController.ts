@@ -58,7 +58,7 @@ export class JettyServerController {
             try {
                 const javaProcess: Promise<void> = Utility.execute(server.outputChannel, 'java', { shell: true }, ...server.startArguments);
                 server.setStarted(true);
-                //this.startDebugSession(server);
+                this.startDebugSession(server);
                 await javaProcess;
                 server.setStarted(false);
             } catch (err) {
@@ -213,6 +213,21 @@ export class JettyServerController {
 
     // tslint:disable-next-line:no-empty
     public dispose(): void { }
+
+    private startDebugSession(server: JettyServer): void {
+        if (!server || !server.getDebugPort() || !server.getDebugWorkspace()) {
+            return;
+        }
+        const config: vscode.DebugConfiguration = {
+            type: 'java',
+            name: 'Jetty Debug (Attach)',
+            request: 'attach',
+            hostName: 'localhost',
+            port: server.getDebugPort()
+        };
+
+        setTimeout(() => vscode.debug.startDebugging(server.getDebugWorkspace(), config), 500);
+    }
 
     private async deployPackage(server: JettyServer, packagePath: string): Promise<void> {
         const appName: string =  path.basename(packagePath, path.extname(packagePath));
