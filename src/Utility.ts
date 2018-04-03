@@ -2,6 +2,7 @@
 
 import * as child_process from "child_process";
 import * as fse from 'fs-extra';
+import * as ini from 'ini';
 import * as os from 'os';
 import * as path from 'path';
 import * as vscode from "vscode";
