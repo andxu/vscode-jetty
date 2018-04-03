@@ -13,6 +13,7 @@
 * Run war package in Jetty Server
 * Open Server homepage in browser
 * Open war package home page in browser
+* Debug war package on Jetty Server
 
 ## Contributing
 
