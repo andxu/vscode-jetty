@@ -4,7 +4,6 @@ import * as fse from 'fs-extra';
 import * as _ from "lodash";
 import * as opn from 'opn';
 import * as path from "path";
-import * as portfinder from 'portfinder';
 import { URL } from 'url';
 import * as vscode from "vscode";
 import { MessageItem } from "vscode";
@@ -56,8 +55,7 @@ export class JettyServerController {
                 return;
             }
             try {
-                //const stopPort: number = await portfinder.getPortPromise();
-                const stopPort: number = 9999;
+                const stopPort: number = await Utility.getFreePort();
                 server.startArguments = ['-jar', path.join(server.installPath, 'start.jar'), `"jetty.base=${server.storagePath}"`, `"-DSTOP.PORT=${stopPort}"`, '"-DSTOP.KEY=STOP"'];
                 const args: string[] = debug ? ['-Xdebug', `-agentlib:jdwp=transport=dt_socket,address=${server.getDebugPort()},server=y,suspend=n`].concat(server.startArguments) : server.startArguments;
                 const javaProcess: Promise<void> = Utility.execute(server.outputChannel, 'java', { shell: true }, args);
@@ -135,7 +133,7 @@ export class JettyServerController {
                 vscode.window.showErrorMessage(Constants.noPackage);
                 return;
             }
-            port = await portfinder.getPortPromise();
+            port = await Utility.getFreePort();
         }
 
         server.setDebugInfo(debug, port, workspaceFolder);
