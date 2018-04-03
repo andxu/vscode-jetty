@@ -41,7 +41,7 @@ export class JettyServerController {
         await Promise.all([
             fse.copy(path.join(installPath, 'demo-base', 'start.d'), path.join(jettyBase, 'start.d')),
             fse.copy(path.join(installPath, 'start.ini'), path.join(jettyBase, 'start.ini')),
-            fse.copy(path.join(installPath, 'etc'), path.join(jettyBase, 'etc')),
+            fse.copy(path.join(installPath, 'demo-base', 'etc'), path.join(jettyBase, 'etc')),
             fse.mkdirs(path.join(jettyBase, 'webapps'))
         ]);
         return newServer;
