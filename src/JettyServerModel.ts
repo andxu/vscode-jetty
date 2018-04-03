@@ -2,6 +2,7 @@
 
 import * as fse from "fs-extra";
 import * as _ from "lodash";
+import * as os from 'os';
 import * as path from "path";
 import * as vscode from "vscode";
 import { JettyServer } from "./JettyServer";
@@ -12,7 +13,7 @@ export class JettyServerModel {
     private _serversJsonFile: string;
 
     constructor(public defaultStoragePath: string) {
-        this._serversJsonFile = path.join(defaultStoragePath, 'servers.json');
+        this._serversJsonFile = path.join(os.homedir(), '.vscode-jetty/servers.json');
         this.initServerListSync();
     }
 

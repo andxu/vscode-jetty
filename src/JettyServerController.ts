@@ -56,7 +56,10 @@ export class JettyServerController {
                 return;
             }
             try {
-                const args: string[] = debug ? server.startArguments.concat(['-Xdebug', '"-agentlib:jdwp=transport=dt_socket,address=9999,server=y,suspend=n"']) : server.startArguments;
+                //const stopPort: number = await portfinder.getPortPromise();
+                const stopPort: number = 9999;
+                server.startArguments = ['-jar', path.join(server.installPath, 'start.jar'), `"jetty.base=${server.storagePath}"`, `"-DSTOP.PORT=${stopPort}"`, '"-DSTOP.KEY=STOP"'];
+                const args: string[] = debug ? ['-Xdebug', `-agentlib:jdwp=transport=dt_socket,address=${server.getDebugPort()},server=y,suspend=n`].concat(server.startArguments) : server.startArguments;
                 const javaProcess: Promise<void> = Utility.execute(server.outputChannel, 'java', { shell: true }, args);
                 server.setStarted(true);
                 if (debug) {
@@ -209,7 +212,15 @@ export class JettyServerController {
     }
 
     // tslint:disable-next-line:no-empty
-    public dispose(): void { }
+    public dispose(): void {
+        this._jettyServerModel.getServerSet().forEach((element: JettyServer) => {
+            if (element.isRunning()) {
+                this.stopServer(element);
+            }
+            element.outputChannel.dispose();
+        });
+        this._jettyServerModel.saveServerListSync();
+     }
 
     private startDebugSession(server: JettyServer): void {
         if (!server || !server.getDebugPort() || !server.getDebugWorkspace()) {

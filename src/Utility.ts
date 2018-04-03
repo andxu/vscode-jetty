@@ -40,11 +40,12 @@ export async function execute(outputChannel: vscode.OutputChannel, command: stri
 export async function getConfig(storagePath: string, file: string, key: string): Promise<string> {
     // tslint:disable-next-line:no-any
     let config: any = ini.parse(await fse.readFile(path.join(storagePath, 'start.d', file), 'utf-8'));
-    if (!config[key]) {
+    let result: string = config[key];
+    if (!result && await fse.pathExists(path.join(storagePath, 'start.ini'))) {
         config = ini.parse(await fse.readFile(path.join(storagePath, 'start.ini'), 'utf-8'));
-        return config[key] ? config[key] : '8080';
+        result = config[key];
     }
-    return config[key];
+    return result ? result : '8080';
 }
 
 export async function getServerName(installPath: string, defaultStoragePath: string): Promise<string> {

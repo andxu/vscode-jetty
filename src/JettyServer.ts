@@ -18,7 +18,6 @@ export class JettyServer extends vscode.TreeItem implements vscode.QuickPickItem
         super(name);
         this.outputChannel = vscode.window.createOutputChannel(`jetty_${this.name}`);
         this.state = Constants.ServerState.IdleServer;
-        this.startArguments = ['-jar', path.join(this.installPath, 'start.jar'), `"jetty.base=${this.storagePath}"`, '-DSTOP.PORT=9999', '-DSTOP.KEY=STOP'];
     }
 
     public setStarted(running: boolean): void {
