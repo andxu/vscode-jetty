@@ -21,6 +21,7 @@
   ],
   "homepage": "https://github.com/SummerSun/vscode-jetty/blob/master/README.md",
   "activationEvents": [
+    "onView:jettyServerExplorer",
     "onCommand:jetty.tree.refresh",
     "onCommand:jetty.server.add",
     "onCommand:jetty.server.start",
