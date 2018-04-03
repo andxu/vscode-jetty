@@ -42,7 +42,7 @@ export class JettyServerController {
             fse.copy(path.join(installPath, 'demo-base', 'start.d'), path.join(jettyBase, 'start.d')),
             fse.copy(path.join(installPath, 'start.ini'), path.join(jettyBase, 'start.ini')),
             fse.copy(path.join(installPath, 'demo-base', 'etc'), path.join(jettyBase, 'etc')),
-            fse.mkdirs(path.join(jettyBase, 'webapps'))
+            fse.copy(path.join(this._extensionPath, 'resources', 'ROOT'), path.join(jettyBase, 'webapps', 'ROOT'))
         ]);
         return newServer;
     }
