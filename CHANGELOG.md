@@ -3,7 +3,7 @@ All notable changes to the "vscode-jetty" extension will be documented in this f
 
 ## 0.1.6
 ### Added
-* Restart Server
+* Add restart server command
 
 ## 0.1.5
 ### Added
