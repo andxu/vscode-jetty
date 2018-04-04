@@ -3,7 +3,7 @@
 ## Java Server Extension Pack
 - [Tomcat] (https://marketplace.visualstudio.com/items?itemName=adashen.vscode-tomcat)
 
-- [Jetty] (https://marketplace.visualstudio.com/items?itemName=summersun.vscode-jetty)
+- [**Jetty**] (https://marketplace.visualstudio.com/items?itemName=summersun.vscode-jetty)
 
 - [Wildfly]
   - TBD
