@@ -94,36 +94,6 @@ div#links h2
   color: #666666;
 }
 
-
-
-div#blog
-{
-  margin-top:  20px;
-  width: 850px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-div#blog iframe
-{
-  width: 100%;
-  height:350px;
-  border: 2px dotted #cccccc; 
-}
-
-
-
-div#footer
-{
-  clear: both;
-  border-top: 4px groove #cccccc;
-  margin-top:20px;
-  padding-top:10px;
-  width: 850px;
-}
-
-
-
 h1
 {
   font-size: 14pt;
@@ -135,7 +105,7 @@ A:link
   color: #0099cc; 
   text-decoration: none;
   font-weight: normal;
-  font-size: 10pt;
+  font-size: 12pt;
   font-family:sans-serif;
 }
 
@@ -144,7 +114,7 @@ A:visited
   color: #0099cc; 
   text-decoration: none;
   font-weight: normal;
-  font-size: 10pt;
+  font-size: 12pt;
   font-family:sans-serif;
 }
 
@@ -153,7 +123,7 @@ A:hover
   color: #ff6600; 
   text-decoration: none;
   font-weight: normal;
-  font-size: 10pt;
+  font-size: 12pt;
   font-family:sans-serif;
 } 
 
@@ -162,7 +132,7 @@ A:active
   color: #0099cc; 
   text-decoration: none;
   font-weight: normal;
-  font-size: 10pt;
+  font-size: 12pt;
   font-family:sans-serif;
 } 
 
