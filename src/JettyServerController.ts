@@ -47,7 +47,7 @@ export class JettyServerController {
         return newServer;
     }
 
-    public async startServer(server: JettyServer, debug?: boolean): Promise<void> {
+    public async startServer(server: JettyServer): Promise<void> {
         server = server ? server : await this.selectServer(true);
         if (server) {
             if (server.isRunning()) {
@@ -56,15 +56,20 @@ export class JettyServerController {
             }
             try {
                 const stopPort: number = await Utility.getFreePort();
+                const debugPort: number = await server.getDebugPort();
                 server.startArguments = ['-jar', path.join(server.installPath, 'start.jar'), `"jetty.base=${server.storagePath}"`, `"-DSTOP.PORT=${stopPort}"`, '"-DSTOP.KEY=STOP"'];
-                const args: string[] = debug ? ['-Xdebug', `-agentlib:jdwp=transport=dt_socket,address=${server.getDebugPort()},server=y,suspend=n`].concat(server.startArguments) : server.startArguments;
+                const args: string[] = debugPort ? ['-Xdebug', `-agentlib:jdwp=transport=dt_socket,address=${debugPort},server=y,suspend=n`].concat(server.startArguments) : server.startArguments;
                 const javaProcess: Promise<void> = Utility.execute(server.outputChannel, 'java', { shell: true }, args);
                 server.setStarted(true);
-                if (debug) {
+                if (debugPort) {
                     this.startDebugSession(server);
                 }
                 await javaProcess;
                 server.setStarted(false);
+                if (server.restart) {
+                    server.restart = false;
+                    await this.startServer(server);
+                }
             } catch (err) {
                 server.setStarted(false);
                 vscode.window.showErrorMessage(err.toString());
@@ -86,7 +91,7 @@ export class JettyServerController {
         }
     }
 
-    public async stopServer(server: JettyServer): Promise<void> {
+    public async stopServer(server: JettyServer, restart?: boolean): Promise<void> {
         server = await this.precheck(server);
         if (server) {
             if (!server.isRunning) {
@@ -94,6 +99,10 @@ export class JettyServerController {
                 return;
             }
             await Utility.execute(server.outputChannel, 'java', { shell: true }, server.startArguments.concat('--stop'));
+            if (!restart) {
+                server.clearDebugInfo();
+            }
+            server.restart = restart;
         }
     }
     public async runWarPackage(uri: vscode.Uri, debug?: boolean): Promise<void> {
@@ -138,9 +147,10 @@ export class JettyServerController {
 
         server.setDebugInfo(debug, port, workspaceFolder);
         if (server.isRunning()) {
-            await this.stopServer(server);
+            await this.stopServer(server, true);
+        } else {
+            await this.startServer(server);
         }
-        await this.startServer(server, debug);
     }
 
     public async browseServer(server: JettyServer): Promise<void> {

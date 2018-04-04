@@ -10,9 +10,9 @@ import * as vscode from "vscode";
 
 export async function validateInstallPath(installPath: string): Promise<boolean> {
     const startJarFileExists: Promise<boolean> = fse.pathExists(path.join(installPath, 'start.jar'));
-    const startIniFileExists: Promise<boolean> = fse.pathExists(path.join(installPath, 'start.ini'));
+    const startInIFileExists: Promise<boolean> = fse.pathExists(path.join(installPath, 'start.ini'));
 
-    return await startJarFileExists && await startIniFileExists;
+    return await startJarFileExists && await startInIFileExists;
 }
 
 export async function execute(outputChannel: vscode.OutputChannel, command: string, options: child_process.SpawnOptions, args: string[]): Promise<void> {
