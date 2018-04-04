@@ -1,7 +1,7 @@
 # Jetty for Visual Studio Code
 
 ## Java Server Extension Pack
-- [**Jetty**] (https://marketplace.visualstudio.com/items?itemName=summersun.vscode-jetty)
+- [**Jetty**](https://marketplace.visualstudio.com/items?itemName=summersun.vscode-jetty)
 
 - [Tomcat](https://marketplace.visualstudio.com/items?itemName=adashen.vscode-tomcat)
 
