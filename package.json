@@ -26,6 +26,8 @@
     "onCommand:jetty.server.add",
     "onCommand:jetty.server.start",
     "onCommand:jetty.server.start.context",
+    "onCommand:jetty.server.restart",
+    "onCommand:jetty.server.restart.context",
     "onCommand:jetty.server.stop",
     "onCommand:jetty.server.stop.context",
     "onCommand:jetty.server.delete",
@@ -64,6 +66,21 @@
         "category": "Jetty"
       },
       {
+        "command": "jetty.server.start.context",
+        "title": "Start",
+        "category": "Jetty"
+      },
+      {
+        "command": "jetty.server.restart",
+        "title": "Restart Jetty Server",
+        "category": "Jetty"
+      },
+      {
+        "command": "jetty.server.restart.context",
+        "title": "Restart",
+        "category": "Jetty"
+      },
+      {
         "command": "jetty.server.rename",
         "title": "Rename Jetty Server",
         "category": "Jetty"
@@ -71,11 +88,6 @@
       {
         "command": "jetty.server.rename.context",
         "title": "Rename",
-        "category": "Jetty"
-      },
-      {
-        "command": "jetty.server.start.context",
-        "title": "Start",
         "category": "Jetty"
       },
       {
@@ -160,6 +172,10 @@
           "when": "never"
         },
         {
+          "command": "jetty.server.restart.context",
+          "when": "never"
+        },
+        {
           "command": "jetty.server.stop.context",
           "when": "never"
         },
@@ -206,6 +222,11 @@
         },
         {
           "command": "jetty.server.stop.context",
+          "when": "view == jettyServerExplorer && viewItem == runningserver",
+          "group": "jetty@1"
+        },
+        {
+          "command": "jetty.server.restart.context",
           "when": "view == jettyServerExplorer && viewItem == runningserver",
           "group": "jetty@2"
         },

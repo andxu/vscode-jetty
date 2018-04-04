@@ -22,6 +22,8 @@ export function activate(context: vscode.ExtensionContext): void {
     context.subscriptions.push(vscode.commands.registerCommand('jetty.server.rename.context', (server: JettyServer) => jettyServerController.renameServer(server)));
     context.subscriptions.push(vscode.commands.registerCommand('jetty.server.start', (server: JettyServer) => { jettyServerController.startServer(server); }));
     context.subscriptions.push(vscode.commands.registerCommand('jetty.server.start.context', (server: JettyServer) => { jettyServerController.startServer(server); }));
+    context.subscriptions.push(vscode.commands.registerCommand('jetty.server.restart', (server: JettyServer) => { jettyServerController.stopServer(server, true); }));
+    context.subscriptions.push(vscode.commands.registerCommand('jetty.server.restart.context', (server: JettyServer) => { jettyServerController.stopServer(server, true); }));
     context.subscriptions.push(vscode.commands.registerCommand('jetty.server.stop', (server: JettyServer) => { jettyServerController.stopServer(server); }));
     context.subscriptions.push(vscode.commands.registerCommand('jetty.server.stop.context', (server: JettyServer) => { jettyServerController.stopServer(server); }));
     context.subscriptions.push(vscode.commands.registerCommand('jetty.server.delete', (server: JettyServer) => { jettyServerController.deleteServer(server); }));

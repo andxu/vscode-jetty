@@ -28,6 +28,8 @@ export const httpPortUndefined: string = 'Error: server http port is undefined!'
 
 export const noPackage: string = 'The selected package is not under current workspace.';
 
+export const noServer: string = 'There is no Jetty Servers.';
+
 export const warFileExtension: string = '.war';
 
 export enum ServerState {

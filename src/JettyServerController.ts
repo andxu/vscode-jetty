@@ -257,7 +257,7 @@ export class JettyServerController {
 
     private async precheck(server: JettyServer): Promise<JettyServer> {
         if (_.isEmpty(this._jettyServerModel.getServerSet())) {
-            vscode.window.showInformationMessage('');
+            vscode.window.showInformationMessage(Constants.noServer);
             return;
         }
         return server ? server : await this.selectServer();
