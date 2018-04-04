@@ -1,16 +1,18 @@
 # Change Log
 All notable changes to the "vscode-jetty" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## 0.1.6
+### Added
+* Restart Server
 
 ## 0.1.5
-## Added
+### Added
 * Add index page for server homepage
-## Chnaged
+### Changed
 * Update extension icon and war package icon
 
 ## 0.1.4
-## Added
+### Added
 * Enable debug war package on Jetty Server
 
 ## 0.1.3
