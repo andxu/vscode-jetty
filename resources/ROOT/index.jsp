@@ -22,47 +22,49 @@
 
 	<div id="links">
 		<%@ page import="java.io.*" %>
-			<% 
-			String file = application.getRealPath("/");
-			File f = new File(file);
-			String webappsPath = f.getParent();
-			File webapps = new File(webappsPath);
-		%>
-				<table>
-					<%
-					String [] fileNames = webapps.list();
-					File [] fileObjects= webapps.listFiles();
-					int packagesCount = 0;
-					for (int i = 0; i < fileObjects.length; i++) {
-						if(fileObjects[i].isDirectory() && !("ROOT").equalsIgnoreCase(fileNames[i])) {
-							String fname = file+fileNames[i];
-							++packagesCount;
-				%>
-						<tr>
-							<td>
-								<ul>
-									<li>
-										<a href="<%= fileNames[i] %>">
-											<%= fileNames[i] %>
-										</a>
-									</li>
-								</ul>
-							</td>
-						</tr>
-						<%
-						}
-					} %>
-				</table>
-				<%	if (packagesCount == 0) {
-				%>
-					<table>
-						<tr>
-							<td>No war package deployed on the jetty server.</td>
-						</tr>
-					</table>
-					<%
+		<%@ page import="java.util.ArrayList" %>
+		<%@ page import="java.util.List" %>
+		<% 
+			File f = new File(application.getRealPath("/"));
+			File webapps = new File(f.getParent());
+			List<String> warPackages = new ArrayList<String>();
+			File[] fileObjects= webapps.listFiles();
+			for (int i = 0; i < fileObjects.length; i++) {
+				if (!("ROOT").equalsIgnoreCase(fileObjects[i].getName())) {
+					String fileName = "";
+					if (fileObjects[i].isDirectory()) {
+						fileName = fileObjects[i].getName();
+					} else if (fileObjects[i].isFile() && fileName.endsWith(".war")) {
+						fileName = fileName.substring(0, fileName.indexOf("."));
 					}
-				%>
+					if (!warPackages.contains(fileName) && fileName != "") {
+						warPackages.add(fileName);
+					}
+				}
+			}
+		%>
+					<table>
+						<% for (int i = 0; i < warPackages.size(); i++) { %>
+							<tr>
+								<td>
+									<ul>
+										<li>
+											<a href="<%= warPackages.get(i) %>">
+												<%= warPackages.get(i) %>
+											</a>
+										</li>
+									</ul>
+								</td>
+							</tr>
+							<% } %>
+					</table>
+					<% if (warPackages.size() == 0) { %>
+						<table>
+							<tr>
+								<td>No war package deployed on the jetty server.</td>
+							</tr>
+						</table>
+						<% } %>
 	</div>
 </body>
 
