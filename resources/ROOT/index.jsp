@@ -49,11 +49,11 @@
 								</ul>
 							</td>
 						</tr>
-				</table>
-				<%
+						<%
 						}
-					}
-					if (packagesCount == 0) {
+					} %>
+				</table>
+				<%	if (packagesCount == 0) {
 				%>
 					<table>
 						<tr>
