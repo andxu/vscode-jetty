@@ -17,14 +17,14 @@
 
 ## Features
 * Add Jetty Server from download directory
-* Start/Stop/Delete Jetty Server from VSCode
-* Run war package on Jetty Server
-* Debug war package on Jetty Server
-* View the Jetty Servers in VSCode tree explorer
-* Delete war package from tree explorer
+* Start/Stop/Delete Jetty Server
+* Run war package
+* Debug war package
+* View added Jetty Servers
+* Delete war package
 * Reveal war package in file explorer
-* Open Server homepage in browser
-* Open war package home page in browser
+* Open Server homepage
+* Open war package homepage
 
 ## Contributing
 
