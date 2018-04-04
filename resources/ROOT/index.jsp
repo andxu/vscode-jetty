@@ -35,7 +35,7 @@
 					if (fileObjects[i].isDirectory()) {
 						fileName = fileObjects[i].getName();
 					} else if (fileObjects[i].isFile() && fileName.endsWith(".war")) {
-						fileName = fileName.substring(0, fileName.indexOf("."));
+						fileName = fileName.substring(0, fileName.indexOf(".war"));
 					}
 					if (!warPackages.contains(fileName) && fileName != "") {
 						warPackages.add(fileName);
