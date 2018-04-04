@@ -2,7 +2,7 @@
   "name": "vscode-jetty",
   "displayName": "Jetty",
   "description": "Jetty for VS Code.",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "icon": "resources/icon.png",
   "publisher": "SummerSun",
   "engines": {

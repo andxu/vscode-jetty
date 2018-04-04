@@ -3,6 +3,12 @@ All notable changes to the "vscode-jetty" extension will be documented in this f
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## 0.1.5
+## Added
+* Add index page for server homepage
+## Chnaged
+* Update extension icon and war package icon
+
 ## 0.1.4
 ## Added
 * Enable debug war package on Jetty Server
