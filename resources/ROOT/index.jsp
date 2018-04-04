@@ -6,7 +6,6 @@
 	<META HTTP-EQUIV="Content-Script-Type" CONTENT="text/javascript">
 	<title>Jetty for VS Code</title>
 	<meta charset="UTF-8"></meta>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<style type="text/css" title="jetty">
 		@import url(jetty.css);
 	</style>

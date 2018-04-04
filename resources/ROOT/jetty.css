@@ -136,51 +136,6 @@ A:active
   font-family:sans-serif;
 } 
 
-A.disabled
-{
-	color: #666666;
-}
-
-
-form
-{
-  display: inline;
-}
-
-.SEVERE
-{
-  background-color: #ff0000;
-}
-
-.WARNING
-{
-  background-color: #ff6633;
-}
-
-.INFO
-{
-  background-color: #00cc33;
-}
-
-.CONFIG
-{
-  background-color: #999999;
-}
-
-.FINE
-{
-  background-color: #3333ff;
-}
-
-.FINER
-{
-  background-color: #3333cc;
-}
-
-.FINEST
-{
-  background-color: #333399;
-}
 
 
 table
@@ -200,122 +155,11 @@ td
   border: #eeeeee groove 2px;
 }
 
+#content h1 {
+  font-weight: 700
+}
 
 #content td
 {
   vertical-align: top;
-}
-
-#key
-{
-  border-spacing: 0px;
-  border: 0px;
-}
-
-#key td
-{
-  border: #eeeeee groove 2px;
-  font-size: 8pt;
-  font-family: Helvetica;
-  font-weight: bold;
-  color: white;
-}
-
-thead th
-{
-  border: #eeeeee groove 2px;
-}
-
-.seq
-{
-    width: 7em;
-    min-width: 7em;
-    max-width: 7em;
-    color: white;
-    font-family: Helvetica;
-    font-weight: bold;
-}
-
-.date
-{
-    width: 19em;
-    min-width: 19em;
-    max-width: 19em;
-    color: black;
-    background-color: #eeeeee;
-}
-
-.thread
-{
-    width: 3em;
-    min-width: 3em;
-    max-width: 3em;
-    color: black;
-    background-color: #eeeeee;
-}
-
-.logger
-{
-    width: 30em;
-    min-width: 30em;
-    max-width: 30em;
-    background-color: #eeeeee;
-}
-
-.logclass
-{
-    width: 30em;
-    min-width: 30em;
-    max-width: 30em;
-    background-color: #eeeeee;
-}
-
-.method
-{
-    width: 20em;
-    min-width: 20em;
-    max-width: 20em;
-    background-color: #eeeeee;
-}
-
-.message
-{
-    width: 250em;
-    min-width: 250em;
-    max-width: 250em;
-    text-align: left;
-    background-color: #eeeeee;
-    font-family: monospace;
-}
-
-
-.message table
-{
-    border: 0px;
-}
-
-.message td,tr
-{
-    text-align: left;
-    vertical-align: top;
-    padding-top: 0px;
-    border: 0px;
-}
-
-.except
-{  
-    background: #eeeeee;
-    padding-top: 2px;
-}
-
-.excepticon
-{
-    width: 40px;
-    max-width: 40px;
-    min-width: 40px;
-}
-
-button
-{
-  background: white;
 }
