@@ -1,10 +1,19 @@
 # Jetty for Visual Studio Code
 
+## Java Server Extension Pack
+- [Tomcat] (https://marketplace.visualstudio.com/items?itemName=adashen.vscode-tomcat)
+
+- [Jetty] (https://marketplace.visualstudio.com/items?itemName=summersun.vscode-jetty)
+
+- [Wildfly]
+  - TBD
+
 ## Prerequisites
 * [Jetty Server](https://www.eclipse.org/jetty/)
 * [Debugger for Java](https://marketplace.visualstudio.com/items?itemName=vscjava.vscode-java-debug)
 
 ## Usage
+* gif demo to be added
 
 ## Features
 * Add Jetty Server from download directory
