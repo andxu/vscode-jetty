@@ -17,7 +17,7 @@
 
 ## Features
 * Add Jetty Server from download directory
-* Start/Stop/Delete Jetty Server
+* Start/Restart/Stop/Delete Jetty Server
 * Run war package
 * Debug war package
 * View added Jetty Servers
