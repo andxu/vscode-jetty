@@ -1,8 +1,8 @@
 {
   "name": "vscode-jetty",
-  "displayName": "Jetty",
-  "description": "Jetty for VS Code.",
-  "version": "0.1.6",
+  "displayName": "Jetty for Java",
+  "description": "Start and run or debug your war package on Jetty.",
+  "version": "0.1.7",
   "icon": "resources/icon.png",
   "publisher": "SummerSun",
   "engines": {
