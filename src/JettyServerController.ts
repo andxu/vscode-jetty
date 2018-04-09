@@ -4,6 +4,7 @@ import * as fse from 'fs-extra';
 import * as _ from "lodash";
 import * as opn from 'opn';
 import * as path from "path";
+import * as portfinder from 'portfinder';
 import { URL } from 'url';
 import * as vscode from "vscode";
 import { MessageItem } from "vscode";
@@ -55,8 +56,8 @@ export class JettyServerController {
                 return;
             }
             try {
-                const stopPort: number = await Utility.getFreePort();
                 const debugPort: number = await server.getDebugPort();
+                const stopPort: number = await portfinder.getPortPromise({ port: debugPort + 1, host: '127.0.0.1' });
                 server.startArguments = ['-jar', path.join(server.installPath, 'start.jar'), `"jetty.base=${server.storagePath}"`, `"-DSTOP.PORT=${stopPort}"`, '"-DSTOP.KEY=STOP"'];
                 const args: string[] = debugPort ? ['-Xdebug', `-agentlib:jdwp=transport=dt_socket,address=${debugPort},server=y,suspend=n`].concat(server.startArguments) : server.startArguments;
                 const javaProcess: Promise<void> = Utility.execute(server.outputChannel, 'java', { shell: true }, args);
@@ -142,7 +143,7 @@ export class JettyServerController {
                 vscode.window.showErrorMessage(Constants.noPackage);
                 return;
             }
-            port = await Utility.getFreePort();
+            port = await portfinder.getPortPromise({ host: '127.0.0.1' });
         }
 
         server.setDebugInfo(debug, port, workspaceFolder);
@@ -228,7 +229,7 @@ export class JettyServerController {
             element.outputChannel.dispose();
         });
         this._jettyServerModel.saveServerListSync();
-     }
+    }
 
     private startDebugSession(server: JettyServer): void {
         if (!server || !server.getDebugPort() || !server.getDebugWorkspace()) {

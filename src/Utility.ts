@@ -3,7 +3,6 @@
 import * as child_process from "child_process";
 import * as fse from 'fs-extra';
 import * as ini from 'ini';
-import * as net from 'net';
 import * as os from 'os';
 import * as path from 'path';
 import * as vscode from "vscode";
@@ -35,24 +34,6 @@ export async function execute(outputChannel: vscode.OutputChannel, command: stri
             }
             resolve();
         });
-    });
-}
-
-export async function getFreePort(): Promise<number> {
-    return await new Promise((resolve: (port: number) => void, reject: (e: Error) => void): void => {
-        const server: net.Server = net.createServer();
-        let port: number = 0;
-        server.on('listening', () => {
-            port = server.address().port;
-            server.close();
-        });
-        server.on('close', () => {
-            return resolve(port);
-        });
-        server.on('error', (err: Error) => {
-            return reject(new Error(err.toString()));
-        });
-        server.listen(0, '127.0.0.1');
     });
 }
 
