@@ -106,7 +106,7 @@ export class JettyServerController {
             server.restart = restart;
         }
     }
-    public async runWarPackage(uri: vscode.Uri, debug?: boolean): Promise<void> {
+    public async runWarPackage(uri: vscode.Uri, debug?: boolean, server?: JettyServer): Promise<void> {
         if (!uri) {
             const dialog: vscode.Uri[] = await vscode.window.showOpenDialog({
                 defaultUri: vscode.workspace.rootPath ? vscode.Uri.file(vscode.workspace.rootPath) : undefined,
@@ -121,7 +121,9 @@ export class JettyServerController {
         }
 
         const packagePath: string = uri.fsPath;
-        const server: JettyServer = await this.selectServer(true);
+        if (!server) {
+            server = await this.selectServer(true);
+        }
         if (!server) {
             return;
         }

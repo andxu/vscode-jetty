@@ -33,6 +33,7 @@
     "onCommand:jetty.server.delete",
     "onCommand:jetty.server.delete.context",
     "onCommand:jetty.server.browse",
+    "onCommand:jetty.server.debug",
     "onCommand:jetty.war.debug",
     "onCommand:jetty.war.delete",
     "onCommand:jetty.war.browse",
@@ -139,6 +140,11 @@
         "command": "jetty.war.browse",
         "title": "Open in Browser",
         "category": "Jetty"
+      },
+      {
+        "command": "jetty.server.debug",
+        "title": "Debug War Package",
+        "category": "Jetty"
       }
     ],
     "views": {
@@ -202,6 +208,10 @@
         {
           "command": "jetty.war.reveal",
           "when": "never"
+        },
+        {
+          "command": "jetty.server.debug",
+          "when": "never"
         }
       ],
       "explorer/context": [
@@ -239,6 +249,11 @@
           "command": "jetty.server.browse",
           "when": "view == jettyServerExplorer && viewItem && viewItem != war",
           "group": "jetty@4"
+        },
+        {
+          "command": "jetty.server.debug",
+          "when": "view == jettyServerExplorer && viewItem && viewItem != war",
+          "group": "jetty@5"
         },
         {
           "command": "jetty.war.browse",

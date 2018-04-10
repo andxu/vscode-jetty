@@ -29,6 +29,7 @@ export function activate(context: vscode.ExtensionContext): void {
     context.subscriptions.push(vscode.commands.registerCommand('jetty.server.delete', (server: JettyServer) => { jettyServerController.deleteServer(server); }));
     context.subscriptions.push(vscode.commands.registerCommand('jetty.server.delete.context', (server: JettyServer) => { jettyServerController.deleteServer(server); }));
     context.subscriptions.push(vscode.commands.registerCommand('jetty.server.browse', (server: JettyServer) => { jettyServerController.browseServer(server); }));
+    context.subscriptions.push(vscode.commands.registerCommand('jetty.server.debug', (server: JettyServer) => { jettyServerController.runWarPackage(undefined, true, server); }));
 
     context.subscriptions.push(vscode.commands.registerCommand('jetty.war.run', (uri: vscode.Uri) => { jettyServerController.runWarPackage(uri); }));
     context.subscriptions.push(vscode.commands.registerCommand('jetty.war.debug', (uri: vscode.Uri) => { jettyServerController.runWarPackage(uri, true); }));
