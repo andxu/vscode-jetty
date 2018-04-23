@@ -1,13 +1,5 @@
 # Jetty for Visual Studio Code
 
-## Java Server Extension Pack
-- [**Jetty**](https://marketplace.visualstudio.com/items?itemName=summersun.vscode-jetty)
-
-- [Tomcat](https://marketplace.visualstudio.com/items?itemName=adashen.vscode-tomcat)
-
-- Wildfly
-  - To be done
-
 ## Usage
 * ![Jetty](resources/Jetty.gif)
 
@@ -20,11 +12,18 @@
 * Start/Restart/Stop/Delete Jetty Server
 * Run war package
 * Debug war package
-* View added Jetty Servers
 * Delete war package
 * Reveal war package in file explorer
 * Open Server homepage
 * Open war package homepage
+
+## Java Server Extension Pack
+- [**Jetty**](https://marketplace.visualstudio.com/items?itemName=summersun.vscode-jetty)
+
+- [Tomcat](https://marketplace.visualstudio.com/items?itemName=adashen.vscode-tomcat)
+
+- Wildfly
+  - To be done
 
 ## Release Notes
 Refer to [CHANGELOG](CHANGELOG.md)
