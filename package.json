@@ -297,11 +297,11 @@
   },
   "devDependencies": {
     "@types/mocha": "^2.2.42",
-    "@types/node": "^7.0.43",
+    "@types/node": "^7.0.62",
     "tslint": "^5.8.0",
     "tslint-microsoft-contrib": "^5.0.3",
-    "typescript": "^2.6.1",
-    "vscode": "^1.1.6"
+    "typescript": "^2.8.3",
+    "vscode": "^1.1.16"
   },
   "dependencies": {
     "fs-extra": "^5.0.0",
