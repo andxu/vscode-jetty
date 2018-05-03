@@ -160,9 +160,10 @@ export class JettyServerController {
         if (server) {
             if (!server.isRunning()) {
                 const result: MessageItem = await vscode.window.showInformationMessage(Constants.startServer, Constants.yes, Constants.no);
-                if (result === Constants.yes) {
-                    this.startServer(server);
+                if (result !== Constants.yes) {
+                    return;
                 }
+                this.startServer(server);
             }
             const httpPort: string = await Utility.getConfig(server.storagePath, 'http.ini', 'jetty.http.port');
             opn(new URL(`${Constants.localhost}:${httpPort}`).toString());
