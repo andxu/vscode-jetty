@@ -32,7 +32,7 @@ export class JettyServerController {
         }
         const installPath: string = pathPick[0].fsPath;
         if (!await Utility.validateInstallPath(installPath)) {
-            vscode.window.showErrorMessage('The selected directory is not a valid Jetty Server Direcotry');
+            vscode.window.showErrorMessage('The selected directory is not a valid Jetty server direcotry');
             return;
         }
         const serverName: string = await Utility.getServerName(installPath, this._jettyServerModel.defaultStoragePath);
