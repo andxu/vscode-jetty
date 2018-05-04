@@ -7,7 +7,6 @@ export class JettyServer extends vscode.TreeItem implements vscode.QuickPickItem
     public label: string;
     public description: string;
     public detail?: string;
-    public outputChannel: vscode.OutputChannel;
     public startArguments: string[];
     public state: Constants.ServerState;
     public restart: boolean = false;
@@ -17,7 +16,6 @@ export class JettyServer extends vscode.TreeItem implements vscode.QuickPickItem
 
     constructor(public name: string, public installPath: string, public storagePath: string) {
         super(name);
-        this.outputChannel = vscode.window.createOutputChannel(`jetty_${this.name}`);
         this.state = Constants.ServerState.IdleServer;
     }
 

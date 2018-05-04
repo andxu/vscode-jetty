@@ -15,8 +15,9 @@ import * as Utility from './Utility';
 import { WarPackage } from './WarPackage';
 
 export class JettyServerController {
-    private static terminal: vscode.Terminal = vscode.window.createTerminal('Jetty');
+    private _outputChannel: vscode.OutputChannel;
     constructor(private _jettyServerModel: JettyServerModel, private _extensionPath: string) {
+        this._outputChannel =  vscode.window.createOutputChannel('vscode-jetty');
     }
 
     public async addServer(): Promise<JettyServer> {
@@ -31,7 +32,7 @@ export class JettyServerController {
         }
         const installPath: string = pathPick[0].fsPath;
         if (!await Utility.validateInstallPath(installPath)) {
-            vscode.window.showErrorMessage('');
+            vscode.window.showErrorMessage('The selected directory is not a valid Jetty Server Direcotry');
             return;
         }
         const serverName: string = await Utility.getServerName(installPath, this._jettyServerModel.defaultStoragePath);
@@ -60,7 +61,7 @@ export class JettyServerController {
                 const stopPort: number = await portfinder.getPortPromise({ port: debugPort + 1, host: '127.0.0.1' });
                 server.startArguments = ['-jar', path.join(server.installPath, 'start.jar'), `"jetty.base=${server.storagePath}"`, `"-DSTOP.PORT=${stopPort}"`, '"-DSTOP.KEY=STOP"'];
                 const args: string[] = debugPort ? ['-Xdebug', `-agentlib:jdwp=transport=dt_socket,address=${debugPort},server=y,suspend=n`].concat(server.startArguments) : server.startArguments;
-                const javaProcess: Promise<void> = Utility.execute(server.outputChannel, 'java', { shell: true }, args);
+                const javaProcess: Promise<void> = Utility.execute(this._outputChannel, server.name, 'java', { shell: true }, args);
                 server.setStarted(true);
                 if (debugPort) {
                     this.startDebugSession(server);
@@ -99,7 +100,7 @@ export class JettyServerController {
                 vscode.window.showInformationMessage(Constants.serverStopped);
                 return;
             }
-            await Utility.execute(server.outputChannel, 'java', { shell: true }, server.startArguments.concat('--stop'));
+            await Utility.execute(this._outputChannel, server.name, 'java', { shell: true }, server.startArguments.concat('--stop'));
             if (!restart) {
                 server.clearDebugInfo();
             }
@@ -228,7 +229,7 @@ export class JettyServerController {
             if (element.isRunning()) {
                 this.stopServer(element);
             }
-            element.outputChannel.dispose();
+            this._outputChannel.dispose();
         });
         this._jettyServerModel.saveServerListSync();
     }

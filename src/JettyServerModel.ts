@@ -43,7 +43,6 @@ export class JettyServerModel {
             if (!_.isEmpty(oldServer)) {
                 fse.remove(server.storagePath);
                 this.saveServerList();
-                server.outputChannel.dispose();
                 return true;
             }
         }
