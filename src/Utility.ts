@@ -14,16 +14,16 @@ export async function validateInstallPath(installPath: string): Promise<boolean>
     return await startJarFileExists && await startInIFileExists;
 }
 
-export async function execute(outputChannel: vscode.OutputChannel, command: string, options: child_process.SpawnOptions, args: string[]): Promise<void> {
+export async function execute(outputChannel: vscode.OutputChannel, prefix: string, command: string, options: child_process.SpawnOptions, args: string[]): Promise<void> {
     await new Promise((resolve: () => void, reject: (e: Error) => void): void => {
         outputChannel.show();
         let stderr: string = '';
         const p: child_process.ChildProcess = child_process.spawn(command, args, options);
         p.stdout.on('data', (data: string | Buffer): void =>
-            outputChannel.append(data.toString()));
+            outputChannel.append(`[${prefix}]: ${data.toString()}`));
         p.stderr.on('data', (data: string | Buffer) => {
             stderr = stderr.concat(data.toString());
-            outputChannel.append(data.toString());
+            outputChannel.append(`[${prefix}]: ${data.toString()}`);
         });
         p.on('error', (err: Error) => {
             reject(err);
