@@ -61,7 +61,7 @@ export class JettyServerController {
                 const stopPort: number = await portfinder.getPortPromise({ port: debugPort + 1, host: '127.0.0.1' });
                 server.startArguments = ['-jar', path.join(server.installPath, 'start.jar'), `"jetty.base=${server.storagePath}"`, `"-DSTOP.PORT=${stopPort}"`, '"-DSTOP.KEY=STOP"'];
                 const args: string[] = debugPort ? ['-Xdebug', `-agentlib:jdwp=transport=dt_socket,address=${debugPort},server=y,suspend=n`].concat(server.startArguments) : server.startArguments;
-                const javaProcess: Promise<void> = Utility.execute(this._outputChannel, server.name, 'java', { shell: true }, args);
+                const javaProcess: Promise<void> = Utility.execute(this._outputChannel, server.name, 'java', { shell: true }, ...args);
                 server.setStarted(true);
                 if (debugPort) {
                     this.startDebugSession(server);
@@ -100,7 +100,7 @@ export class JettyServerController {
                 vscode.window.showInformationMessage(Constants.serverStopped);
                 return;
             }
-            await Utility.execute(this._outputChannel, server.name, 'java', { shell: true }, server.startArguments.concat('--stop'));
+            await Utility.execute(this._outputChannel, server.name, 'java', { shell: true }, ...server.startArguments.concat('--stop'));
             if (!restart) {
                 server.clearDebugInfo();
             }
@@ -222,6 +222,12 @@ export class JettyServerController {
             }
             opn(new URL(warPackage.label, `${Constants.localhost}:${httpPort}`).toString());
         }
+    }
+
+    public async generateWarPackage(): Promise<void> {
+        const name: string = vscode.workspace.name;
+        await Utility.execute(this._outputChannel, undefined, 'jar', { cwd: vscode.workspace.rootPath }, 'cvf', ...[`${name}.war`, '*']);
+        //
     }
 
     // tslint:disable-next-line:no-empty
