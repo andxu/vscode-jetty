@@ -38,7 +38,8 @@
     "onCommand:jetty.war.delete",
     "onCommand:jetty.war.browse",
     "onCommand:jetty.war.reveal",
-    "onCommand:jetty.war.run"
+    "onCommand:jetty.war.run",
+    "onCommand:jetty.package"
   ],
   "main": "./out/src/extension",
   "contributes": {
@@ -144,6 +145,11 @@
       {
         "command": "jetty.server.debug",
         "title": "Debug War Package",
+        "category": "Jetty"
+      },
+      {
+        "command": "jetty.package",
+        "title": "Generate War Package from Current Folder",
         "category": "Jetty"
       }
     ],
@@ -301,7 +307,7 @@
     "tslint": "^5.8.0",
     "tslint-microsoft-contrib": "^5.0.3",
     "typescript": "^2.8.3",
-    "vscode": "^1.1.16"
+    "vscode": "^1.1.17"
   },
   "dependencies": {
     "fs-extra": "^5.0.0",

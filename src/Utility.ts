@@ -14,7 +14,7 @@ export async function validateInstallPath(installPath: string): Promise<boolean>
     return await startJarFileExists && await startInIFileExists;
 }
 
-export async function execute(outputChannel: vscode.OutputChannel, prefix: string, command: string, options: child_process.SpawnOptions, args: string[]): Promise<void> {
+export async function execute(outputChannel: vscode.OutputChannel, prefix: string, command: string, options: child_process.SpawnOptions, ...args: string[]): Promise<void> {
     await new Promise((resolve: () => void, reject: (e: Error) => void): void => {
         outputChannel.show();
         let stderr: string = '';
