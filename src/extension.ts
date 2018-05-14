@@ -36,7 +36,7 @@ export function activate(context: vscode.ExtensionContext): void {
     context.subscriptions.push(vscode.commands.registerCommand('jetty.war.delete', (warPackage: WarPackage) => { jettyServerController.deleteWarPackage(warPackage); }));
     context.subscriptions.push(vscode.commands.registerCommand('jetty.war.reveal', (warPackage: WarPackage) => { jettyServerController.revealWarPackage(warPackage); }));
     context.subscriptions.push(vscode.commands.registerCommand('jetty.war.browse', (warPackage: WarPackage) => {jettyServerController.browseWarPackage(warPackage); }));
-
+    context.subscriptions.push(vscode.commands.registerCommand('jetty.package', () => jettyServerController.generateWarPackage()));
     context.subscriptions.push(vscode.commands.registerCommand('jetty.tree.refresh', (server: JettyServer) => { jettyServerTree.refresh(server); }));
 }
 

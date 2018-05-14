@@ -226,7 +226,7 @@ export class JettyServerController {
 
     public async generateWarPackage(): Promise<void> {
         const name: string = vscode.workspace.name;
-        await Utility.execute(this._outputChannel, undefined, 'jar', { cwd: vscode.workspace.rootPath }, 'cvf', ...[`${name}.war`, '*']);
+        await Utility.execute(this._outputChannel, undefined, 'jar', { cwd: vscode.workspace.rootPath, shell: true }, 'cvf', ...[`"${name}.war"`, '*']);
     }
 
     // tslint:disable-next-line:no-empty
