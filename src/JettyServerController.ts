@@ -97,7 +97,7 @@ export class JettyServerController {
     public async stopServer(server: JettyServer, restart?: boolean): Promise<void> {
         server = await this.precheck(server);
         if (server) {
-            if (!server.isRunning) {
+            if (!server.isRunning()) {
                 vscode.window.showInformationMessage(Constants.serverStopped);
                 return;
             }
