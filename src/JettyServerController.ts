@@ -35,7 +35,8 @@ export class JettyServerController {
             vscode.window.showErrorMessage('The selected directory is not a valid Jetty server direcotry');
             return;
         }
-        const serverName: string = await Utility.getServerName(installPath, this._jettyServerModel.defaultStoragePath);
+        const existingServerNames: string[] = this._jettyServerModel.getServerSet().map((item: JettyServer) => { return item.name; });
+        const serverName: string = await Utility.getServerName(installPath, this._jettyServerModel.defaultStoragePath, existingServerNames);
         const jettyHome: string = path.join(installPath, 'start.jar');
         const jettyBase: string = await Utility.getServerStoragePath(this._jettyServerModel.defaultStoragePath, serverName);
         const newServer: JettyServer = new JettyServer(serverName, installPath, jettyBase);
