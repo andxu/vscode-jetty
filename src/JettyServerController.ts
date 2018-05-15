@@ -212,7 +212,7 @@ export class JettyServerController {
             const server: JettyServer = this._jettyServerModel.getJettyServer(warPackage.serverName);
             const httpPort: string = await Utility.getConfig(server.storagePath, 'http.ini', 'jetty.http.port');
             if (!httpPort) {
-                vscode.window.showErrorMessage('Invalid server configuration.');
+                vscode.window.showErrorMessage(Constants.httpPortUndefined);
                 return;
             }
             if (!server.isRunning()) {
@@ -247,7 +247,7 @@ export class JettyServerController {
         }
         const config: vscode.DebugConfiguration = {
             type: 'java',
-            name: 'Jetty Debug (Attach)',
+            name: `${Constants.DEBUG_SESSION_NAME}_${server.basePathName}`,
             request: 'attach',
             hostName: 'localhost',
             port: server.getDebugPort()

@@ -5,6 +5,7 @@ import * as _ from "lodash";
 import * as os from 'os';
 import * as path from "path";
 import * as vscode from "vscode";
+import * as Constants from './Constants';
 import { JettyServer } from "./JettyServer";
 import * as Utility from "./Utility";
 
@@ -15,6 +16,11 @@ export class JettyServerModel {
     constructor(public defaultStoragePath: string) {
         this._serversJsonFile = path.join(os.homedir(), '.vscode-jetty/servers.json');
         this.initServerListSync();
+        vscode.debug.onDidTerminateDebugSession((session: vscode.DebugSession) => {
+            if (session && session.name && session.name.startsWith(Constants.DEBUG_SESSION_NAME)) {
+                this.clearServerDebugInfo(session.name.split('_').pop());
+            }
+        });
     }
 
     public getServerSet(): JettyServer[] {
@@ -82,6 +88,13 @@ export class JettyServerModel {
             }
         } catch (err) {
             console.error(err);
+        }
+    }
+
+    private clearServerDebugInfo(basePathName: string): void {
+        const server: JettyServer = this._serverList.find((s: JettyServer) => { return s.basePathName === basePathName; });
+        if (server) {
+            server.clearDebugInfo();
         }
     }
 }
