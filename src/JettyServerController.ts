@@ -247,7 +247,7 @@ export class JettyServerController {
         }
         const config: vscode.DebugConfiguration = {
             type: 'java',
-            name: 'Jetty Debug (Attach)',
+            name: `Jetty Debug (Attach)_${server.basePathName}`,
             request: 'attach',
             hostName: 'localhost',
             port: server.getDebugPort()

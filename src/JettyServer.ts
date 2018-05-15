@@ -10,6 +10,7 @@ export class JettyServer extends vscode.TreeItem implements vscode.QuickPickItem
     public startArguments: string[];
     public state: Constants.ServerState;
     public restart: boolean = false;
+    public basePathName: string;
     private _isDebugging: boolean = false;
     private _debugPort: number;
     private _debugWorkspace: vscode.WorkspaceFolder;
@@ -17,6 +18,7 @@ export class JettyServer extends vscode.TreeItem implements vscode.QuickPickItem
     constructor(public name: string, public installPath: string, public storagePath: string) {
         super(name);
         this.state = Constants.ServerState.IdleServer;
+        this.basePathName = path.basename(storagePath);
     }
 
     public setStarted(running: boolean): void {

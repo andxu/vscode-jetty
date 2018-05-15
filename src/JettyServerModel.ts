@@ -15,6 +15,9 @@ export class JettyServerModel {
     constructor(public defaultStoragePath: string) {
         this._serversJsonFile = path.join(os.homedir(), '.vscode-jetty/servers.json');
         this.initServerListSync();
+        vscode.debug.onDidTerminateDebugSession((session: vscode.DebugSession) => {
+            this.clearServerDebugInfo(session.name.split('_').pop());
+        });
     }
 
     public getServerSet(): JettyServer[] {
@@ -83,5 +86,10 @@ export class JettyServerModel {
         } catch (err) {
             console.error(err);
         }
+    }
+
+    private clearServerDebugInfo(basePathName: string): void {
+        const server: JettyServer = this._serverList.find((s: JettyServer) => { return s.basePathName === basePathName; });
+        server.clearDebugInfo();
     }
 }
