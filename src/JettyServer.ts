@@ -8,7 +8,7 @@ export class JettyServer extends vscode.TreeItem implements vscode.QuickPickItem
     public description: string;
     public detail?: string;
     public startArguments: string[];
-    public state: Constants.ServerState;
+    public state: Constants.SERVER_STATE;
     public restart: boolean = false;
     public basePathName: string;
     private _isDebugging: boolean = false;

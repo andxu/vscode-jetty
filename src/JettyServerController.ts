@@ -25,7 +25,7 @@ export class JettyServerController {
             defaultUri: vscode.workspace.rootPath ? vscode.Uri.file(vscode.workspace.rootPath) : undefined,
             canSelectFiles: false,
             canSelectFolders: true,
-            openLabel: Constants.selectJettyDirectory
+            openLabel: Constants.SELECT_JETTY_DIRECTORY
         });
         if (_.isEmpty(pathPick) || !pathPick[0].fsPath) {
             return;
@@ -54,7 +54,7 @@ export class JettyServerController {
         server = server ? server : await this.selectServer(true);
         if (server) {
             if (server.isRunning()) {
-                vscode.window.showInformationMessage(Constants.serverRunning);
+                vscode.window.showInformationMessage(Constants.SERVER_RUNNING);
                 return;
             }
             try {
@@ -84,8 +84,8 @@ export class JettyServerController {
         server = await this.precheck(server);
         if (server) {
             if (server.isRunning()) {
-                const confirmation: MessageItem = await vscode.window.showWarningMessage(Constants.deleteConfirm, Constants.yes, Constants.cancel);
-                if (confirmation !== Constants.yes) {
+                const confirmation: MessageItem = await vscode.window.showWarningMessage(Constants.DELETE_CONFIRM, Constants.YES, Constants.CANCEL);
+                if (confirmation !== Constants.YES) {
                     return;
                 }
                 await this.stopServer(server);
@@ -98,7 +98,7 @@ export class JettyServerController {
         server = await this.precheck(server);
         if (server) {
             if (!server.isRunning()) {
-                vscode.window.showInformationMessage(Constants.serverStopped);
+                vscode.window.showInformationMessage(Constants.SERVER_STOPPED);
                 return;
             }
             if (!restart) {
@@ -114,7 +114,7 @@ export class JettyServerController {
                 defaultUri: vscode.workspace.rootPath ? vscode.Uri.file(vscode.workspace.rootPath) : undefined,
                 canSelectFiles: true,
                 canSelectFolders: false,
-                openLabel: Constants.selectWarPackage
+                openLabel: Constants.SELECT_WAR_PACKAGE
             });
             if (_.isEmpty(dialog) || !dialog[0].fsPath) {
                 return;
@@ -144,7 +144,7 @@ export class JettyServerController {
                 });
             }
             if (!workspaceFolder) {
-                vscode.window.showErrorMessage(Constants.noPackage);
+                vscode.window.showErrorMessage(Constants.NO_PACKAGE);
                 return;
             }
             port = await portfinder.getPortPromise({ host: '127.0.0.1' });
@@ -161,14 +161,14 @@ export class JettyServerController {
     public async browseServer(server: JettyServer): Promise<void> {
         if (server) {
             if (!server.isRunning()) {
-                const result: MessageItem = await vscode.window.showInformationMessage(Constants.startServer, Constants.yes, Constants.no);
-                if (result !== Constants.yes) {
+                const result: MessageItem = await vscode.window.showInformationMessage(Constants.START_SERVER, Constants.YES, Constants.NO);
+                if (result !== Constants.YES) {
                     return;
                 }
                 this.startServer(server);
             }
             const httpPort: string = await Utility.getConfig(server.storagePath, 'http.ini', 'jetty.http.port');
-            opn(new URL(`${Constants.localhost}:${httpPort}`).toString());
+            opn(new URL(`${Constants.LOCALHOST}:${httpPort}`).toString());
         }
     }
 
@@ -212,16 +212,16 @@ export class JettyServerController {
             const server: JettyServer = this._jettyServerModel.getJettyServer(warPackage.serverName);
             const httpPort: string = await Utility.getConfig(server.storagePath, 'http.ini', 'jetty.http.port');
             if (!httpPort) {
-                vscode.window.showErrorMessage(Constants.httpPortUndefined);
+                vscode.window.showErrorMessage(Constants.HTTP_PORT_UNDEFINED);
                 return;
             }
             if (!server.isRunning()) {
-                const result: MessageItem = await vscode.window.showInformationMessage(Constants.startServer, Constants.yes, Constants.no);
-                if (result === Constants.yes) {
+                const result: MessageItem = await vscode.window.showInformationMessage(Constants.START_SERVER, Constants.YES, Constants.NO);
+                if (result === Constants.YES) {
                     this.startServer(server);
                 }
             }
-            opn(new URL(warPackage.label, `${Constants.localhost}:${httpPort}`).toString());
+            opn(new URL(warPackage.label, `${Constants.LOCALHOST}:${httpPort}`).toString());
         }
     }
 
@@ -268,7 +268,7 @@ export class JettyServerController {
 
     private async precheck(server: JettyServer): Promise<JettyServer> {
         if (_.isEmpty(this._jettyServerModel.getServerSet())) {
-            vscode.window.showInformationMessage(Constants.noServer);
+            vscode.window.showInformationMessage(Constants.NO_SERVER);
             return;
         }
         return server ? server : await this.selectServer();
@@ -282,10 +282,10 @@ export class JettyServerController {
         if (items.length === 1) {
             return <JettyServer>items[0];
         }
-        items = createIfNoneServer ? items.concat({ label: `$(plus) ${Constants.addServer}`, description: '' }) : items;
+        items = createIfNoneServer ? items.concat({ label: `$(plus) ${Constants.ADD_SERVER}`, description: '' }) : items;
         const pick: vscode.QuickPickItem = await vscode.window.showQuickPick(
             items,
-            { placeHolder: createIfNoneServer && items.length === 1 ? Constants.addServer : Constants.selectServer }
+            { placeHolder: createIfNoneServer && items.length === 1 ? Constants.ADD_SERVER : Constants.SELECT_SERVER }
         );
 
         if (pick) {
