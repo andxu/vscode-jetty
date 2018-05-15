@@ -32,6 +32,8 @@ export const noServer: string = 'There is no Jetty Servers.';
 
 export const warFileExtension: string = '.war';
 
+export const DEBUG_SESSION_NAME: string = 'Jetty Debug (Attach)';
+
 export enum ServerState {
     RunningServer = 'runningserver',
     IdleServer = 'idleserver'
