@@ -212,7 +212,7 @@ export class JettyServerController {
             const server: JettyServer = this._jettyServerModel.getJettyServer(warPackage.serverName);
             const httpPort: string = await Utility.getConfig(server.storagePath, 'http.ini', 'jetty.http.port');
             if (!httpPort) {
-                vscode.window.showErrorMessage('');
+                vscode.window.showErrorMessage('Invalid server configuration.');
                 return;
             }
             if (!server.isRunning()) {
@@ -262,7 +262,7 @@ export class JettyServerController {
 
         await fse.remove(appPath);
         await fse.mkdirs(appPath);
-        await fse.copy(packagePath, path.join(server.storagePath, 'webapps', path.basename(packagePath)));
+        await Utility.execute(this._outputChannel, server.name, 'jar', { cwd: appPath }, 'xvf', `${packagePath}`);
         vscode.commands.executeCommand('jetty.tree.refresh');
     }
 
