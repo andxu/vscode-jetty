@@ -16,7 +16,9 @@ export class JettyServerModel {
         this._serversJsonFile = path.join(os.homedir(), '.vscode-jetty/servers.json');
         this.initServerListSync();
         vscode.debug.onDidTerminateDebugSession((session: vscode.DebugSession) => {
-            this.clearServerDebugInfo(session.name.split('_').pop());
+            if (session && session.name && session.name.startsWith('Jetty Debug (Attach)')) {
+                this.clearServerDebugInfo(session.name.split('_').pop());
+            }
         });
     }
 
