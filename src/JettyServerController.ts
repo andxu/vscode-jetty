@@ -212,7 +212,7 @@ export class JettyServerController {
             const server: JettyServer = this._jettyServerModel.getJettyServer(warPackage.serverName);
             const httpPort: string = await Utility.getConfig(server.storagePath, 'http.ini', 'jetty.http.port');
             if (!httpPort) {
-                vscode.window.showErrorMessage('Invalid server configuration.');
+                vscode.window.showErrorMessage(Constants.httpPortUndefined);
                 return;
             }
             if (!server.isRunning()) {
