@@ -101,11 +101,11 @@ export class JettyServerController {
                 vscode.window.showInformationMessage(Constants.serverStopped);
                 return;
             }
-            await Utility.execute(this._outputChannel, server.name, 'java', { shell: true }, ...server.startArguments.concat('--stop'));
             if (!restart) {
                 server.clearDebugInfo();
             }
             server.restart = restart;
+            await Utility.execute(this._outputChannel, server.name, 'java', { shell: true }, ...server.startArguments.concat('--stop'));
         }
     }
     public async runWarPackage(uri: vscode.Uri, debug?: boolean, server?: JettyServer): Promise<void> {
