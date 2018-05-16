@@ -1,6 +1,15 @@
 # Change Log
 All notable changes to the "vscode-jetty" extension will be documented in this file.
 
+# 0.1.11
+### Added
+* Add command "Generate War Package from Current Folder"
+
+### Fixed
+* Fix issue [#14](https://github.com/SummerSun/vscode-jetty/issues/14)
+* Fix issue [#13](https://github.com/SummerSun/vscode-jetty/issues/13)
+* Fix issue [#8](https://github.com/SummerSun/vscode-jetty/issues/8)
+
 ## 0.1.10
 ### Changed
 * Update ReadMe
