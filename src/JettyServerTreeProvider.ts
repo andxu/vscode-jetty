@@ -27,7 +27,7 @@ export class JettyServerTreeProvider implements vscode.TreeDataProvider<vscode.T
                 server.collapsibleState = vscode.TreeItemCollapsibleState.Collapsed;
                 return server;
             });
-        } else if (element.contextValue === Constants.ServerState.IdleServer || element.contextValue === Constants.ServerState.RunningServer) {
+        } else if (element.contextValue === Constants.SERVER_STATE.IdleServer || element.contextValue === Constants.SERVER_STATE.RunningServer) {
             const server: JettyServer = <JettyServer>element;
             const webapps: string = path.join(server.storagePath, 'webapps');
             const iconPath: string = this._context.asAbsolutePath(path.join('resources', 'war.jpg'));
@@ -41,8 +41,8 @@ export class JettyServerTreeProvider implements vscode.TreeDataProvider<vscode.T
                     if (w.toUpperCase() !== 'ROOT') {
                         temp = await fse.stat(path.join(webapps, w));
                         fileExtension = path.extname(path.join(webapps, w));
-                        if (temp.isDirectory() || (temp.isFile() && fileExtension === Constants.warFileExtension)) {
-                            wars.push(fileExtension === Constants.warFileExtension ? path.basename(w, fileExtension) : w);
+                        if (temp.isDirectory() || (temp.isFile() && fileExtension === Constants.WAR_FILE_EXTENSION)) {
+                            wars.push(fileExtension === Constants.WAR_FILE_EXTENSION ? path.basename(w, fileExtension) : w);
                         }
                     }
                 });
