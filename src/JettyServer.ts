@@ -17,17 +17,17 @@ export class JettyServer extends vscode.TreeItem implements vscode.QuickPickItem
 
     constructor(public name: string, public installPath: string, public storagePath: string) {
         super(name);
-        this.state = Constants.ServerState.IdleServer;
+        this.state = Constants.SERVER_STATE.IdleServer;
         this.basePathName = path.basename(storagePath);
     }
 
     public setStarted(running: boolean): void {
-        this.state = running ? Constants.ServerState.RunningServer : Constants.ServerState.IdleServer;
+        this.state = running ? Constants.SERVER_STATE.RunningServer : Constants.SERVER_STATE.IdleServer;
         vscode.commands.executeCommand('jetty.tree.refresh');
     }
 
     public isRunning(): boolean {
-        return this.state === Constants.ServerState.RunningServer;
+        return this.state === Constants.SERVER_STATE.RunningServer;
     }
 
     public isDebugging(): boolean {
