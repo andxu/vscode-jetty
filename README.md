@@ -18,6 +18,9 @@
 * Open war package homepage
 
 ## Java Server Extension Pack
+
+see <https://github.com/SummerSun/vscode-java-server-pack>
+
 - [**Jetty**](https://marketplace.visualstudio.com/items?itemName=summersun.vscode-jetty)
 
 - [Tomcat](https://marketplace.visualstudio.com/items?itemName=adashen.vscode-tomcat)
