@@ -1,3 +1,9 @@
+**❗DEPRECATED❗**
+
+This extension has been deprecated in favor of the [Community Server Connectors](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-community-server-connector) extension.
+
+---
+
 # Jetty for Visual Studio Code
 
 ## Usage
