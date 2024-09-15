@@ -60,9 +60,9 @@ export class JettyServerController {
             try {
                 const debugPort: number = await server.getDebugPort();
                 const stopPort: number = await portfinder.getPortPromise({ port: debugPort + 1, host: '127.0.0.1' });
-                server.startArguments = ['-jar', path.join(server.installPath, 'start.jar'), `"jetty.base=${server.storagePath}"`, `"-DSTOP.PORT=${stopPort}"`, '"-DSTOP.KEY=STOP"'];
+                server.startArguments = ['-jar', 'start.jar', `"jetty.base=${server.storagePath}"`, `"-DSTOP.PORT=${stopPort}"`, '"-DSTOP.KEY=STOP"'];
                 const args: string[] = debugPort ? ['-Xdebug', `-agentlib:jdwp=transport=dt_socket,address=${debugPort},server=y,suspend=n`].concat(server.startArguments) : server.startArguments;
-                const javaProcess: Promise<void> = Utility.execute(this._outputChannel, server.name, 'java', { shell: true }, ...args);
+                const javaProcess: Promise<void> = Utility.execute(this._outputChannel, server.name, 'java', { shell: true, cwd: server.installPath }, ...args);
                 server.setStarted(true);
                 if (debugPort) {
                     this.startDebugSession(server);
@@ -105,7 +105,7 @@ export class JettyServerController {
                 server.clearDebugInfo();
             }
             server.restart = restart;
-            await Utility.execute(this._outputChannel, server.name, 'java', { shell: true }, ...server.startArguments.concat('--stop'));
+            await Utility.execute(this._outputChannel, server.name, 'java', { shell: true, cwd: server.installPath }, ...server.startArguments.concat('--stop'));
         }
     }
     public async runWarPackage(uri: vscode.Uri, debug?: boolean, server?: JettyServer): Promise<void> {
